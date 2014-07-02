@@ -54,47 +54,52 @@ object Chat extends Controller {
   }
 
   def registerMQTT = {
-    // Eclipse Paho + HiveMQ
-    val brokerUrl: String = "tcp://localhost:1883"
+    try {
+      // Eclipse Paho + HiveMQ
+      val brokerUrl: String = "tcp://localhost:1883"
 
-    //Set up persistence for messages
-    var peristance: MqttClientPersistence = new MemoryPersistence()
+      //Set up persistence for messages
+      var peristance: MqttClientPersistence = new MemoryPersistence()
 
-    //Initializing Mqtt Client specifying brokerUrl, clientID and MqttClientPersistance
-    clientMQ = new MqttClient(brokerUrl, MqttClient.generateClientId(), peristance)
+      //Initializing Mqtt Client specifying brokerUrl, clientID and MqttClientPersistance
+      clientMQ = new MqttClient(brokerUrl, MqttClient.generateClientId(), peristance)
 
-    var mqttOptions: MqttConnectOptions = new MqttConnectOptions()
-    // set clean session to false so that when reconnected, it gets messages happen when the connection was lost
-    mqttOptions.setCleanSession( false )
-    mqttOptions.setKeepAliveInterval(30)
+      var mqttOptions: MqttConnectOptions = new MqttConnectOptions()
+      // set clean session to false so that when reconnected, it gets messages happen when the connection was lost
+      mqttOptions.setCleanSession( false )
+      mqttOptions.setKeepAliveInterval(30)
 
-    //Connect to MqttBroker
-    clientMQ.connect( mqttOptions )
-    //Subscribe to Mqtt topic
-    subscribeTopic("hello",2)
+      //Connect to MqttBroker
+      clientMQ.connect( mqttOptions )
+      //Subscribe to Mqtt topic
+      subscribeTopic("hello",2)
 
-    //Callback automatically triggers as and when new message arrives on specified topic
-    var callback: MqttCallback = new MqttCallback() {
+      //Callback automatically triggers as and when new message arrives on specified topic
+      var callback: MqttCallback = new MqttCallback() {
 
-      //Handles Mqtt message
-      override def messageArrived(arg0: String, arg1: MqttMessage) {
-        print("--- get MQTT message --- : ");
-        println(new String(arg1.getPayload()));
-      }
+        //Handles Mqtt message
+        override def messageArrived(arg0: String, arg1: MqttMessage) {
+          print("--- get MQTT message --- : ");
+          println(new String(arg1.getPayload()));
+        }
 
-      override def deliveryComplete(arg0: IMqttDeliveryToken) {
-        System.err.println("delivery complete")
-      }
+        override def deliveryComplete(arg0: IMqttDeliveryToken) {
+          System.err.println("delivery complete")
+        }
 
-      override def connectionLost(arg0: Throwable) {
-        System.err.println("Connection lost " + arg0)
+        override def connectionLost(arg0: Throwable) {
+          System.err.println("Connection lost " + arg0)
 
-      }
+        }
 
-    };
+      };
 
-    //Set up callback for MqttClient
-    clientMQ.setCallback(callback);
+      //Set up callback for MqttClient
+      clientMQ.setCallback(callback);
+    } catch {
+      case e: Exception => e.printStackTrace()
+    }
+
   }
 
   def subscribeTopic( topic: String, qos: Int ) {
