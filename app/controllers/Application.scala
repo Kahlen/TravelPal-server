@@ -6,7 +6,6 @@ import play.api.mvc._
 object Application extends Controller {
 
   def index = Action {
-    Chat.registerMQTT
     Ok(views.html.index("Hello, world"))
   }
 

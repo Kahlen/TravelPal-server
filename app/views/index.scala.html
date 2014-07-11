@@ -2,26 +2,33 @@
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">
-    <head>
-        <meta charset="UTF-8"/>
-        <title>TravelPal</title>
+<head>
+    <meta charset="UTF-8"/>
+    <title>UoB</title>
 
-        <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
-        <script type="text/javascript" src='@routes.Assets.at("javascripts/paho.js")'></script>
-        <script type="text/javascript" src='@routes.Assets.at("javascripts/chat.js")'></script>
+    <link rel="stylesheet" media="screen" href='@routes.Assets.at("css/signin.css")'></link>
 
-    </head>
-    <body>
-        <textarea id="messageTextArea" readonly="readonly" rows="10" cols="45"></textarea><br/>
-        <!--<form action="@routes.Chat.sendMessage()" method="post">-->
-            <!--<input type="text" id="inputMessage" name="message" size="50"/>-->
-            <!--<input type="submit" value="Send" onclick="parseMessage(this.form)"/>-->
-        <!--</form>-->
+    <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery.cookie.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/signin.js")'></script>
 
-        <form id="messageForm">
-            <input type="text" id="inputMessage" name="message" size="50" value=""/>
-            <input type="submit" id="submitMessage" value="Send"/>
+</head>
+<body>
+
+    <div class="body"></div>
+    <div class="grad"></div>
+    <div class="header">
+        <div>Travel<span>Pal</span></div>
+    </div>
+    <br>
+    <div class="login">
+        <form id="signinForm">
+            <input type="text" placeholder="username" name="user" id="_id"><br>
+            <input type="password" placeholder="password" name="password" id="password"><br>
+            <input type="button" value="Login" id="signInBtn">
+            <input type="button" value="Join" id="joinBtn">
         </form>
+    </div>
 
-    </body>
+</body>
 </html>

@@ -11,6 +11,9 @@ $(document).ready( function() {
     registerMqtt();
     setSendMessageSubmitBtn();
 
+    var user = $.cookie("userId");
+    console.log("user = " + user);
+
 });
 
 function setSendMessageSubmitBtn() {
@@ -36,13 +39,18 @@ function registerMqtt() {
     client.onConnectionLost = onConnectionLost;
     client.onMessageArrived = onMessageArrived;
 
-    client.connect({onSuccess:onConnect});
+    client.connect({onSuccess:onConnect, onFailure:onConnectFail});
 
     // called when the client connects
     function onConnect() {
       // Once a connection has been made, make a subscription and send a message.
       console.log("onConnect");
       client.subscribe("hello");
+    }
+
+    function onConnectFail() {
+        console.log("connection fail");
+        alert("MQTT client connect fail");
     }
 
     // called when the client loses its connection
@@ -61,4 +69,14 @@ function registerMqtt() {
       $('#messageTextArea').val( $('#messageTextArea').val() + "other: " + msg + "\n");
     }
 
+}
+
+$(window).unload( function () {
+    disconnectMqtt();
+});
+
+function disconnectMqtt() {
+    // disconnect MQTT when close window
+    client.disconnec();
+    console.log("close MQTT connection");
 }

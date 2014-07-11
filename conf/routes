@@ -7,9 +7,17 @@ GET     /                           controllers.Application.index
 
 # User account
 GET     /user                       controllers.Users.create(id: String, password: String, name: String)
+POST    /login                      controllers.Users.loginFromJson
+POST    /create                     controllers.Users.createFromJson
+GET     /searchf                    controllers.Users.findFriends
 
 # Chat
+GET     /chat                       controllers.Chat.index
 POST    /chat                       controllers.Chat.sendMessage
+
+# Content
+GET     /front                      controllers.ContentManager.index
+GET     /friends                    controllers.ContentManager.friends
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

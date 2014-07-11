@@ -25,6 +25,11 @@ object Chat extends Controller {
 
   var clientMQ: MqttClient = _
 
+  def index = Action {
+    registerMQTT
+    Ok(views.html.chat("Hello, world"))
+  }
+
   val sentMessageForm = Form(
     mapping(
       //"userId" -> nonEmptyText,
@@ -62,7 +67,7 @@ object Chat extends Controller {
       var peristance: MqttClientPersistence = new MemoryPersistence()
 
       //Initializing Mqtt Client specifying brokerUrl, clientID and MqttClientPersistance
-      clientMQ = new MqttClient(brokerUrl, MqttClient.generateClientId(), peristance)
+      clientMQ = new MqttClient(brokerUrl, "TravelPalServer", peristance)
 
       var mqttOptions: MqttConnectOptions = new MqttConnectOptions()
       // set clean session to false so that when reconnected, it gets messages happen when the connection was lost
