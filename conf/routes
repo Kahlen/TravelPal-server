@@ -9,7 +9,9 @@ GET     /                           controllers.Application.index
 GET     /user                       controllers.Users.create(id: String, password: String, name: String)
 POST    /login                      controllers.Users.loginFromJson
 POST    /create                     controllers.Users.createFromJson
-GET     /searchf                    controllers.Users.findFriends
+GET     /searchf                    controllers.Users.findFriendsWithRelation(id: String)
+POST    /addf                       controllers.Users.addFriends
+POST    /removef                    controllers.Users.removeFriends
 
 # Chat
 GET     /chat                       controllers.Chat.index

@@ -130,7 +130,7 @@ object Users extends Controller with MongoController {
       // find all people with name `name`
       find(Json.obj()).
       // sort them by creation date
-      sort(Json.obj("created" -> -1)).
+      sort(Json.obj("_id" -> 1)).
       // perform the query and get a cursor of JsObject
       cursor[User]
 
@@ -141,6 +141,53 @@ object Users extends Controller with MongoController {
     val futurePersonsJsonArray: Future[JsArray] = futureUsersList.map { persons =>
       Logger.debug("persons: " + persons)
       Json.arr(persons)
+    }
+
+    // everything's ok! Let's reply with the array
+    futurePersonsJsonArray.map { persons =>
+      Logger.debug("findFrineds: " + persons)
+      // return json value
+      Ok(JsObject("friends" -> persons::Nil))
+    }
+  }
+
+  def findFriendsWithRelation(id: String) = Action.async {
+    // let's do our query
+    val cursor: Cursor[FriendsOf] = collection.
+      // find all people with name `name`
+      find(Json.obj()).
+      // sort them by creation date
+      sort(Json.obj("_id" -> 1)).
+      // perform the query and get a cursor of JsObject
+      cursor[FriendsOf]
+
+    // gather all the JsObjects in a list
+    val futureUsersList: Future[List[FriendsOf]] = cursor.collect[List]()
+
+
+    // transform the list into a JsArray
+    val futurePersonsJsonArray: Future[JsArray] = futureUsersList.map { persons =>
+      Logger.debug("persons: " + persons)
+
+      var friendsResult: JsArray = JsArray()
+      persons.foreach{ p =>
+        p match {
+          case FriendsOf(fid,_,_,x) =>
+            Logger.debug("id: " + fid)
+            val isFriend = x match {
+              case None => false
+              case Some(i) => i.contains(id)
+            }
+            val tmp = Json.obj(
+              "_id" -> fid,
+              "isFriend" -> isFriend
+            )
+
+            friendsResult = tmp +: friendsResult
+        }
+      }
+
+      friendsResult
     }
 
     // everything's ok! Let's reply with the array
@@ -167,6 +214,47 @@ object Users extends Controller with MongoController {
     // everything's ok! Let's reply with the array
     futureUsersList.map { persons =>
       Ok(persons.toString)
+    }
+  }
+
+  implicit val friendRequestJson2Obj = (
+    (__ \ 'id).read[String] and
+      (__ \ 'friend).read[String]
+    ) tupled
+
+  def addFriends = Action { request =>
+    Logger.debug("addFriends")
+    request.body.asJson.map { json =>
+      json.validate[(String, String)].map{
+        case (id, friend) =>
+          // add friends to database
+          Logger.debug("friend: " + friend)
+          collection.update(Json.obj("_id" -> id), Json.obj("$push" -> Json.obj("friends" -> friend)))
+          collection.update(Json.obj("_id" -> friend), Json.obj("$push" -> Json.obj("friends" -> id)))
+          Ok
+      }.recoverTotal{
+        e => BadRequest("Detected error:"+ JsError.toFlatJson(e))
+      }
+    }.getOrElse {
+      BadRequest("Expecting Json data")
+    }
+  }
+
+  def removeFriends = Action { request =>
+    Logger.debug("removeFriends")
+    request.body.asJson.map { json =>
+      json.validate[(String, String)].map{
+        case (id, friend) =>
+          // add friends to database
+          Logger.debug("friend: " + friend)
+          collection.update(Json.obj("_id" -> id), Json.obj("$pull" -> Json.obj("friends" -> friend)))
+          collection.update(Json.obj("_id" -> friend), Json.obj("$pull" -> Json.obj("friends" -> id)))
+          Ok
+      }.recoverTotal{
+        e => BadRequest("Detected error:"+ JsError.toFlatJson(e))
+      }
+    }.getOrElse {
+      BadRequest("Expecting Json data")
     }
   }
 
