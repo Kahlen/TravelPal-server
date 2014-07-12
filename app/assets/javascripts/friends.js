@@ -103,6 +103,15 @@ function friendClick() {
         // subscribe this user
         // friend/me
         mqttSubscribeChatUser(user);
+
+        $('ul li').each(function(i) {
+           if ($(this).hasClass('double') && $(this).text() != user ) {
+                //toggle other friends to pressed if it was double
+                console.log( $(this).text() + "should be toggled: " );
+                $(this).removeClass( "double" ).addClass( "pressed" );
+           }
+        });
+
         return false;
     });
 
