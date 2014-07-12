@@ -24,6 +24,8 @@ import org.eclipse.paho.client.mqttv3.MqttTopic;
 object Chat extends Controller {
 
   var clientMQ: MqttClient = _
+  // constructor
+  registerMQTT
 
   def index = Action {
     registerMQTT
@@ -51,9 +53,9 @@ object Chat extends Controller {
         // push
         // TODO: add account
         publishOnTopic("hello", userInput, 2)
-
+        Ok
         //println("userId: " + msg.userId + ", message = " + msg.message + ", timestamp = " + msg.timestamp)
-        Redirect(routes.Application.index)
+//        Redirect(routes.Application.index)
       }
     )
   }

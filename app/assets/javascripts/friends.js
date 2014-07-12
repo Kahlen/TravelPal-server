@@ -50,9 +50,6 @@ function friendClick() {
       var user = $(this).text(); // user id
       console.log(user + " clicked");
 
-      var className = $(this).attr('class');
-      console.log("class name = " + className);
-
       var requestBody = '{"id":"' + getCookie("userId") + '","friend":"'+user + '"}';
       console.log("requestBody = " + requestBody);
 
@@ -98,6 +95,11 @@ function friendClick() {
       }
 
       return false;
+    })
+    .on("dblclick", "li", function(event) {
+        var user = $(this).text(); // user id
+        console.log(user + " is double clicked");
+        return false;
     });
 
 

@@ -1,0 +1,94 @@
+.friend-right{
+    padding:15px
+	font-family:Arial;
+	font-size:10pt;
+}
+a{
+	color:rgba(41, 128, 185,1.0)
+}
+a:hover{
+	color:rgba(52, 152, 219,1.0)
+}
+.caixa-de-enviar{
+	background:#ffffff;
+	display:inline-block;
+	padding:4px;
+}
+
+.inputMsg{
+	border:1px solid #e5e5e5;
+	width:300px;
+	height:28px;
+	border-radius:5px 0 0 5px;
+	float:left;
+}
+
+.sendBtn{
+	border:1px solid #27ae60;
+	background:#2ecc71;
+	color:#FFFFFF;
+	width:60px;
+	height:30px;
+	border-radius:0 5px 5px 0;
+	float:left;
+}
+
+.sendBtn:hover{
+	background:#5fcf7f;
+}
+
+#menssagens{
+	background:white;
+	color:#757575;
+	display:block;
+	width:360px;
+	clear:both;
+	max-width:360px;
+	height:;
+}
+.chat{
+	border:1px solid #e5e5e5;
+	display:inline-block;
+	margin:auto;
+}
+
+.mensagem{
+	border:1px solid #e5e5e5;
+	background-color:rgba(46, 204, 113,.1);
+	color:#757575;
+	border-radius:3px;
+	margin-top:2px;
+	text-align:right;
+	text-indent:3px;
+	margin:5px;
+	float:right;
+	clear:both;
+	box-shadow:1px 1px 4px #e5e5e5;
+	padding:3px;
+}
+.mensagem2{
+	border:1px solid #e5e5e5;
+	color:#757575;
+	border-radius:3px;
+	margin-top:2px;
+	text-align:right;
+	text-indent:3px;
+	margin:5px;
+	float:left;
+	clear:both;
+	box-shadow:1px 1px 4px #e5e5e5;
+	padding:3px;
+}
+.mensagem:before{
+	float:left;
+	color:green;
+	border-right:1px solid #e5e5e5;
+}
+.mensagem2:before{
+	float:left;
+	border-right:1px solid #e5e5e5;
+}
+#chatarea{
+	height:300px;
+	overflow:auto;
+}

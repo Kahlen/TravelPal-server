@@ -7,23 +7,45 @@
     <title>TravelPal</title>
 
     <link rel="stylesheet" media="screen" href='@routes.Assets.at("css/friends.css")'></link>
+    <link rel="stylesheet" media="screen" href='@routes.Assets.at("css/chatroom.css")'></link>
 
     <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery.cookie.js")'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/friends.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/paho.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/chatroom.js")'></script>
 
 </head>
 
 <body>
 
+    <div class="friend-container">
 
-    <div id="friendsZon">
-        <ul id="removeList">
-            <!--Add friends here-->
-            <!--<li class="me">Remove me <i class="icon-minus pull-right"></i></li>-->
-        </ul>
+        <div class="friend-right">
+            <div class="chat">
+                <div class="caixa-de-enviar">
+                    <div id="chatarea"></div><br />
+                    <form id="messageForm">
+                        <input type="text" class="inputMsg" id="inputMsg" name="message" autofocus maxlength="45" placeholder="......">
+                        <input type="button" value="send" class="sendBtn" id="sendBtn">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="friend-left">
+            <div id="friendsZon">
+                <ul id="removeList">
+                    <!--Add friends here-->
+                    <!--<li class="me">Remove me <i class="icon-minus pull-right"></i></li>-->
+                </ul>
+
+            </div>
+        </div>
 
     </div>
+
+
 
 
 </body>

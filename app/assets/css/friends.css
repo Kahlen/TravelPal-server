@@ -4,7 +4,6 @@
   font-family: "Armata", sans-serif;
   font-size: 14px;
   color: #222;
-  margin: 50px auto;
   width: 700px;
 }
 
@@ -59,3 +58,22 @@
 i.icon-minus, i.icon-plus {
   display: none;
 }
+
+
+/* two column */
+.friend-container {
+   height: auto;
+   overflow: hidden;
+}
+
+.friend-right {
+    width: 500px;
+    float: right;
+}
+
+.friend-left {
+    float: none; /* not needed, just for clarification */
+    /* the next props are meant to keep this block independent from the other floated one */
+    width: auto;
+    overflow: hidden;
+}​​
