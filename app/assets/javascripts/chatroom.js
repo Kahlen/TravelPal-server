@@ -1,4 +1,5 @@
-var client = new Paho.MQTT.Client(window.location.hostname, 8000, "testClientId");
+var client = new Paho.MQTT.Client(window.location.hostname, 8000, getCookie("userId"));
+var currentChatFriend = "*";
 
 $(document).ready( function() {
 
@@ -16,7 +17,26 @@ function setSendMessageSubmitBtn() {
          console.log("msg = " + msg);
 
          // post to server
-         $.post("/chat", $('#messageForm').serialize());
+         var publishTopic = getCookie("userId") + "/" + currentChatFriend;
+         var requestBody = '{"userId":"' + getCookie("userId") + '","message":"'+msg + '","timestamp":"'+ Date.now() + '","topic":"' + publishTopic + '"}';
+         console.log("requestBody = " + requestBody);
+         $.ajax({url: '/chat',
+             data: requestBody,
+             type: 'POST',
+             async: 'true',
+             dataType: 'application/json',
+             contentType: 'application/json',
+             complete: function(xhr, statusText) {
+                 // This callback function will trigger on data sent/received complete
+                 console.log("chat complete: " + xhr.status);
+             },
+             error: function (xhr, statusText, err) {
+                 // This callback function will trigger on unsuccessful action
+                 console.log("chat error: " + xhr.status);
+             }
+         });
+
+
 
          var oldMsg = $('#chatarea');
          oldMsg.append('<p class="mensagem toggle">'+msg+'</p>');
@@ -31,8 +51,7 @@ function setSendMessageSubmitBtn() {
 }
 
 function registerMqtt() {
-    // TODO: define user id
-//    var client = new Paho.MQTT.Client(window.location.hostname, 8000, "testClientId");
+
     client.onConnectionLost = onConnectionLost;
     client.onMessageArrived = onMessageArrived;
 
@@ -42,7 +61,7 @@ function registerMqtt() {
     function onConnect() {
       // Once a connection has been made, make a subscription and send a message.
       console.log("onConnect");
-      client.subscribe("hello");
+      // client.subscribe("hello");
     }
 
     function onConnectFail() {
@@ -68,6 +87,13 @@ function registerMqtt() {
 
 }
 
+function mqttSubscribeChatUser(chatUser) {
+    currentChatFriend = chatUser;
+    var subscribeTopic = chatUser + "/" + getCookie("userId");
+    console.log("subscribe topic: " + subscribeTopic);
+    client.subscribe(subscribeTopic);
+}
+
 $(window).unload( function () {
     disconnectMqtt();
 });
@@ -76,4 +102,15 @@ function disconnectMqtt() {
     // disconnect MQTT when close window
     client.disconnec();
     console.log("close MQTT connection");
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) != -1) return c.substring(name.length,c.length);
+    }
+    return "";
 }

@@ -99,6 +99,10 @@ function friendClick() {
     .on("dblclick", "li", function(event) {
         var user = $(this).text(); // user id
         console.log(user + " is double clicked");
+        $(this).toggleClass("double");
+        // subscribe this user
+        // friend/me
+        mqttSubscribeChatUser(user);
         return false;
     });
 

@@ -34,6 +34,10 @@
   background-color: #FFAC78;
 }
 
+.me.double {
+  background-color: #FF0080;
+}
+
 .me:hover i.icon-minus, button:hover i.icon-plus {
   display: block;
   opacity: 1;
@@ -67,7 +71,7 @@ i.icon-minus, i.icon-plus {
 }
 
 .friend-right {
-    width: 500px;
+    width: 700px;
     float: right;
 }
 

@@ -13,11 +13,12 @@ a:hover{
 	background:#ffffff;
 	display:inline-block;
 	padding:4px;
+	width:600px;
 }
 
 .inputMsg{
 	border:1px solid #e5e5e5;
-	width:300px;
+	width:530px;
 	height:28px;
 	border-radius:5px 0 0 5px;
 	float:left;
@@ -31,6 +32,7 @@ a:hover{
 	height:30px;
 	border-radius:0 5px 5px 0;
 	float:left;
+	margin-left:5px
 }
 
 .sendBtn:hover{

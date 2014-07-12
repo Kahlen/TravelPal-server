@@ -34,9 +34,10 @@ object Chat extends Controller {
 
   val sentMessageForm = Form(
     mapping(
-      //"userId" -> nonEmptyText,
-      "message" -> optional(text)//,
-      //"timestamp" -> nonEmptyText
+      "userId" -> nonEmptyText,
+      "message" -> optional(text),
+      "timestamp" -> nonEmptyText,
+      "topic" -> nonEmptyText
     )(ChatMessage.apply)(ChatMessage.unapply)
   )
 
@@ -47,12 +48,15 @@ object Chat extends Controller {
         BadRequest(views.html.index("Bad"))
       },
       msg => {
+        val userId = msg.userId
+        val timestamp = msg.timestamp
+        val topic = msg.topic
         val userInput = msg.message.getOrElse("")
-        println("message = " + userInput)
+        println( "user(" + userId + ") sent message (" + userInput + ") on topic(" + topic + ") at " + timestamp)
 
         // push
-        // TODO: add account
-        publishOnTopic("hello", userInput, 2)
+        // topic: friend/me (the former one is sender, the latter one is receiver)
+        publishOnTopic(topic, userInput, 2)
         Ok
         //println("userId: " + msg.userId + ", message = " + msg.message + ", timestamp = " + msg.timestamp)
 //        Redirect(routes.Application.index)
@@ -78,7 +82,7 @@ object Chat extends Controller {
 
       //Connect to MqttBroker
       clientMQ.connect( mqttOptions )
-      //Subscribe to Mqtt topic
+      //TODO: Subscribe to Mqtt topic
       subscribeTopic("hello",2)
 
       //Callback automatically triggers as and when new message arrives on specified topic
