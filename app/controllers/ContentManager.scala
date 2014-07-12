@@ -15,4 +15,12 @@ object ContentManager extends Controller {
     Ok(views.html.friends("Hello, world"))
   }
 
+  def mytrip = Action {
+    Ok(views.html.mytrip("Hello, word"))
+  }
+
+  def newtrip = Action {
+    Ok(views.html.newtrip("Hello, word"))
+  }
+
 }

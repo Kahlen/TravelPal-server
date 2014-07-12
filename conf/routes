@@ -16,8 +16,9 @@ GET     /chat                       controllers.Chat.index
 POST    /chat                       controllers.Chat.sendMessage
 
 # Content
-GET     /front                      controllers.ContentManager.index
 GET     /friends                    controllers.ContentManager.friends
+GET     /mytrip                     controllers.ContentManager.mytrip
+GET     /newtrip                    controllers.ContentManager.newtrip
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

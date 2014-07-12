@@ -14,9 +14,32 @@ function setupBtn(btn, tag) {
 }
 
 function setupPage() {
+
+    logout();
+
 	setupBtn("#homeBtn", "#idont");
-	setupBtn("#myTripsBtn","#luck");
-	setupBtn("#newTripsBtn","#paint");
+	setupBtn("#myTripsBtn","mytrip");
+	setupBtn("#newTripsBtn","newtrip");
 	setupBtn("#findFriendsBtn","friends");
-	setupBtn("#meBtn","#about");
+//	setupBtn("#meBtn","#about");
+
+
 }
+
+
+function logout() {
+
+    $("#meBtn").click(function() {
+        console.log("logout clicked");
+        // remove cookie
+        deleteCookie("userId");
+        // go to index page
+        window.location.href = "/";
+    });
+
+}
+
+function deleteCookie(name) {
+    document.cookie = name+'="";-1; path=/';
+}
+

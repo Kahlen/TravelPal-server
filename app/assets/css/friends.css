@@ -1,0 +1,61 @@
+@import url('http://fonts.googleapis.com/css?family=Armata');
+
+#friendsZon {
+  font-family: "Armata", sans-serif;
+  font-size: 14px;
+  color: #222;
+  margin: 50px auto;
+  width: 700px;
+}
+
+#removeList {
+  list-style: none;
+}
+
+.me {
+  padding: 15px;
+  background-color: #1A8BB2;
+  border-bottom: 1px solid #f2f2f2;
+  margin-top: 1px;
+  width: 180px;
+  cursor: default;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.me:first-child {
+  border-top: 1px solid #f2f2f2;
+}
+
+.me:hover {
+  background-color: #B25E4F;
+  color: black;
+}
+
+.me.pressed {
+  background-color: #FFAC78;
+}
+
+.me:hover i.icon-minus, button:hover i.icon-plus {
+  display: block;
+  opacity: 1;
+}
+
+#add {
+  padding: 15px;
+  background-color: #87CCB2;
+  border: 1px solid #f2f2f2;
+  width: 210px;
+  margin-left: 40px;
+  text-align: left;
+  cursor: default;
+  transition: background-color 0.3s ease-in-out;
+}
+
+#add:hover {
+  background-color: #FFAC78;
+  color: black;
+}
+
+i.icon-minus, i.icon-plus {
+  display: none;
+}

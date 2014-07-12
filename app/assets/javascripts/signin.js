@@ -22,7 +22,7 @@ function setSignInSubmitBtn() {
             complete: function(xhr, statusText) {
                 // This callback function will trigger on data sent/received complete
                 console.log("login complete: " + xhr.status);
-                window.location.href = "/front";
+                window.location.href = "/";
 
                 //set cookie
                 $.cookie("userId", user);

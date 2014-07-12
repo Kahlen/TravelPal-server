@@ -18,26 +18,31 @@ function getFriends() {
             console.log("data: " + data);
             var friends = data.friends[0];
             $.each(friends, function(index,user) {
-                $('#friendsList .list').append('<li><h3 class="name">User: '+ user._id +'</h3></li>');
+                var item = $("<li class='me' style='display: none;'>" + user._id + "<i class='icon-minus pull-right'></i></li>");
+                $("#removeList").append(item);
+                $("#removeList").find("li.me:last-child").slideDown();
+                friendClick();
+//                $('#friendsList .list').append('<li><h3 class="name">User: '+ user._id +'</h3></li>');
               });
         }
 
     });
 
-//    $.get( "searchf", function( data ) {
-//    console.log("data: " + data);
-//    var friends = data.friends;
-//      $.each(friends, function(index,userName) {
-//          $('#friendsList .list').append('<li><h3 class="name">'+userName+'</h3></li>');
-//        });
-//    }, "json" );
-
 }
 
-function update_list(updatedUsers) {
+function friendClick() {
 
-  $.each(updatedUsers, function(index,userName) {
-    $('#friendsList .list').append('<li><h3 class="name">'+userName+'</h3></li>');
-  });
+    //removing from list
+    $("ul").on("click", "li", function(event) {
+      $(this).find("i").addClass("icon-rotate-90");
+      // change background color
+      $(this).toggleClass("pressed");
+
+      var user = $(this).text(); // user id
+      console.log(user + " clicked");
+
+      return false;
+    });
+
 
 }
