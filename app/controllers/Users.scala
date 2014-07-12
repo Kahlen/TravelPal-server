@@ -96,9 +96,12 @@ object Users extends Controller with MongoController {
      * (insert() takes a JsObject as parameter, or anything that can be
      * turned into a JsObject using a Writes.)
      */
+
     request.body.validate[User].map { user =>
       // `user` is an instance of the case class `models.User`
       // let's do our query
+      Logger.debug("request = " + user)
+
       val cursor: Cursor[User] = collection.
         // find all people with name `name`
         find(Json.obj("_id" -> user._id, "password" -> user.password)).

@@ -22,16 +22,22 @@ function setSignInSubmitBtn() {
             complete: function(xhr, statusText) {
                 // This callback function will trigger on data sent/received complete
                 console.log("login complete: " + xhr.status);
-                window.location.href = "/";
+                if ( xhr.status == 404 ) {
+                    console.log("user not found");
+                    $('.invalidLogin').css("display","inline");
+                } else {
+                    window.location.href = "/";
+                    //set cookie
+                    $.cookie("userId", user);
+                }
 
-                //set cookie
-                $.cookie("userId", user);
             },
             error: function (xhr, statusText, err) {
                 // This callback function will trigger on unsuccessful action
                 console.log("login error: " + xhr.status);
                 if ( xhr.status == 404 ) {
                     console.log("user not found");
+                    $('.invalidLogin').css("display","inline");
                 }
             }
         });

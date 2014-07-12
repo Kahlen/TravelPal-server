@@ -63,6 +63,16 @@ body{
 	color: #5379fa !important;
 }
 
+.invalidLogin {
+    display: none;
+    position: absolute;
+    top: calc(80% - 15px);
+    left: calc(50% - 40px);
+    color: #DF013A;
+    font-size: 18px;
+    z-index: 2;
+}
+
 .login{
 	position: absolute;
 	top: calc(50% - 75px);
