@@ -57,9 +57,14 @@ object Chat extends Controller {
         // push
         // topic: friend/me (the former one is reciever, the latter one is sender)
         publishOnTopic(topic, userInput, 2)
+
+        // save this message to db
+        val receiverId = topic.split("/")(0)
+        val msgRecord = ChatRecord( userInput, timestamp )
+        val msg2save = models.ChatHistory(userId, receiverId, List(msgRecord))
+        ChatHistory.putMessageToDb(msg2save)
+
         Ok
-        //println("userId: " + msg.userId + ", message = " + msg.message + ", timestamp = " + msg.timestamp)
-//        Redirect(routes.Application.index)
       }
     )
   }
