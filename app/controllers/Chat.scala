@@ -60,8 +60,9 @@ object Chat extends Controller {
 
         // save this message to db
         val receiverId = topic.split("/")(0)
-        val msgRecord = ChatRecord( userInput, timestamp )
-        val msg2save = models.ChatHistory(userId, receiverId, List(msgRecord))
+        val allChatUsers = List(userId, receiverId)
+        val msgRecord = ChatRecord( userId, userInput, timestamp )
+        val msg2save = models.ChatHistory(allChatUsers, List(msgRecord))
         ChatHistory.putMessageToDb(msg2save)
 
         Ok

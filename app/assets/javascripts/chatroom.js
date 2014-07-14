@@ -94,6 +94,21 @@ function mqttSubscribeChatUser(chatUser) {
     var subscribeTopic = getCookie("userId") + "/#";
     console.log("subscribe topic: " + subscribeTopic);
     client.subscribe(subscribeTopic);
+
+    // get chat history from server
+    $.ajax({
+            type: 'GET',
+            url: '/history',
+            data: {"users": getCookie("userId") + "," + chatUser},
+            dataType: 'json',
+            success: function (data) {
+                if ( data.length !== 0 ) {
+                    console.log("data: " + data);
+                    // TODO
+                }
+            }
+
+        });
 }
 
 $(window).unload( function () {

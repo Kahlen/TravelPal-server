@@ -16,7 +16,7 @@ POST    /removef                    controllers.Users.removeFriends
 # Chat
 GET     /chat                       controllers.Chat.index
 POST    /chat                       controllers.Chat.sendMessage
-GET     /history                    controllers.ChatHistory.getChatHistoryFromDb(from: String, to: String)
+GET     /history                    controllers.ChatHistory.getChatHistoryFromDb(users: String)
 
 # Content
 GET     /friends                    controllers.ContentManager.friends

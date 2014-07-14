@@ -101,7 +101,7 @@ function friendClick() {
         console.log(user + " is double clicked");
         $(this).toggleClass("double");
         // subscribe this user
-        // friend/me
+        // me/friend (receiver/sender)
         mqttSubscribeChatUser(user);
 
         $('ul li').each(function(i) {

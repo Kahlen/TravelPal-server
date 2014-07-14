@@ -28,7 +28,7 @@ object ChatHistory extends Controller with MongoController {
 
       try {
         // check if this (from, to) exist
-        val cursor = collection.find(Json.obj("from" -> msg.from, "to" -> msg.to)).cursor[ChatHistory]
+        val cursor = collection.find(Json.obj("users" -> Json.obj( "$size" -> msg.users.length, "$all" -> msg.users ))).cursor[ChatHistory]
         // gather all the JsObjects in a list
         val futureUsersList: Future[List[ChatHistory]] = cursor.collect[List]()
         futureUsersList.map { h =>
@@ -39,7 +39,10 @@ object ChatHistory extends Controller with MongoController {
           } else {
             // update
             Logger.debug("update history")
-            collection.update(Json.obj("from" -> msg.from, "to" -> msg.to), Json.obj("$push" ->  Json.obj("history" -> Json.obj("$each" -> msg.history) ) ))
+            collection.update(
+              Json.obj("users" -> Json.obj( "$size" -> msg.users.length, "$all" -> msg.users )),
+              Json.obj("$push" -> Json.obj( "history" -> Json.obj("$each" -> msg.history)   ))
+            )
           }
         }
 
@@ -49,11 +52,13 @@ object ChatHistory extends Controller with MongoController {
 
     }
 
-    def getChatHistoryFromDb(from: String, to: String) = Action.async {
+    // users are passed in with "," e.g. /history?users=user,testid5
+    def getChatHistoryFromDb(u: String) = Action.async {
+      val users = u.split(",")
       // let's do our query
       val cursor: Cursor[ChatHistory] = collection.
         // find all people with name `name`
-        find(Json.obj("from" -> from, "to" -> to)).
+        find(Json.obj("users" -> Json.obj( "$size" -> users.length, "$all" -> users ))).
         // sort them by creation date
         sort(Json.obj("from" -> 1)).
         // perform the query and get a cursor of JsObject
@@ -65,8 +70,8 @@ object ChatHistory extends Controller with MongoController {
       // everything's ok! Let's reply with the array
       futureHistoryList.map { h =>
         if (h.isEmpty) {
-          // return 204 if there's no history
-          NoContent
+          // return an empty JSON if there's no history
+          Ok(Json.obj())
         } else {
           Logger.debug("getChatHistoryFromDb: " + h(0))
           Ok(Json.toJson(h(0)))

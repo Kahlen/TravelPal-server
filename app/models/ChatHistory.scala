@@ -7,8 +7,7 @@ import play.api.libs.json.JsObject
  * Created by kahlenlin on 7/14/14.
  */
 case class ChatHistory (
-  from: String,
-  to: String,
+  users: List[String],
   history: List[ChatRecord])
 
 object ChatHistoryJsonFormats {
@@ -21,4 +20,4 @@ object ChatHistoryJsonFormats {
 
 }
 
-case class ChatRecord(message: String, timestamp: String)
+case class ChatRecord(from: String, message: String, timestamp: String)
