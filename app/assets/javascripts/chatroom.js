@@ -17,7 +17,8 @@ function setSendMessageSubmitBtn() {
          console.log("msg = " + msg);
 
          // post to server
-         var publishTopic = getCookie("userId") + "/" + currentChatFriend;
+         // publish to topic = friend/me
+         var publishTopic = currentChatFriend + "/" + getCookie("userId");
          var requestBody = '{"userId":"' + getCookie("userId") + '","message":"'+msg + '","timestamp":"'+ Date.now() + '","topic":"' + publishTopic + '"}';
          console.log("requestBody = " + requestBody);
          $.ajax({url: '/chat',
@@ -89,7 +90,8 @@ function registerMqtt() {
 
 function mqttSubscribeChatUser(chatUser) {
     currentChatFriend = chatUser;
-    var subscribeTopic = chatUser + "/" + getCookie("userId");
+    // subscribe me/#
+    var subscribeTopic = getCookie("userId") + "/#";
     console.log("subscribe topic: " + subscribeTopic);
     client.subscribe(subscribeTopic);
 }

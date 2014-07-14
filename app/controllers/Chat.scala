@@ -55,7 +55,7 @@ object Chat extends Controller {
         println( "user(" + userId + ") sent message (" + userInput + ") on topic(" + topic + ") at " + timestamp)
 
         // push
-        // topic: friend/me (the former one is sender, the latter one is receiver)
+        // topic: friend/me (the former one is reciever, the latter one is sender)
         publishOnTopic(topic, userInput, 2)
         Ok
         //println("userId: " + msg.userId + ", message = " + msg.message + ", timestamp = " + msg.timestamp)
