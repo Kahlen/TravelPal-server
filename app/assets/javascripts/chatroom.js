@@ -104,11 +104,33 @@ function mqttSubscribeChatUser(chatUser) {
             success: function (data) {
                 if ( data.length !== 0 ) {
                     console.log("data: " + data);
-                    // TODO
+                    var history = data.history;
+                    $.each(history, function(index, msg) {
+                        if ( msg.from == getCookie("userId") ) {
+                            // current user's message
+                            addMeChatRecord( msg.message );
+                        } else {
+                            // friend's message
+                            addFriendChatRecord( msg.message );
+                        }
+                    });
                 }
             }
 
         });
+}
+
+function addFriendChatRecord(msg) {
+    // append message to chat textarea
+    $('#chatarea').append('<p class="mensagem2 toggle">'+msg+'</p>');
+}
+
+function addMeChatRecord(msg) {
+    var oldMsg = $('#chatarea');
+    oldMsg.append('<p class="mensagem toggle">'+msg+'</p>');
+
+    // show on chat textarea
+    $('#chatarea').val( $('#chatarea').val() + "me: " + msg + "\n");
 }
 
 $(window).unload( function () {
