@@ -173,17 +173,20 @@ object Users extends Controller with MongoController {
       persons.foreach{ p =>
         p match {
           case FriendsOf(fid,_,_,x) =>
-            Logger.debug("id: " + fid)
-            val isFriend = x match {
-              case None => false
-              case Some(i) => i.contains(id)
-            }
-            val tmp = Json.obj(
-              "_id" -> fid,
-              "isFriend" -> isFriend
-            )
+            if ( !fid.equals(id) ) {
+              // show all the ids except current user
+              Logger.debug("id: " + fid)
+              val isFriend = x match {
+                case None => false
+                case Some(i) => i.contains(id)
+              }
+              val tmp = Json.obj(
+                "_id" -> fid,
+                "isFriend" -> isFriend
+              )
 
-            friendsResult = tmp +: friendsResult
+              friendsResult = tmp +: friendsResult
+            }
         }
       }
 
