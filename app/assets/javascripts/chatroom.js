@@ -11,6 +11,11 @@ $(document).ready( function() {
 
 });
 
+function scrollTextareaToEnd() {
+    var d = $('#chatarea');
+    d.scrollTop(d.prop("scrollHeight"));
+}
+
 function setSendMessageSubmitBtn() {
     $('#sendBtn').click( function() {
          var msg = $("#inputMsg").val();
@@ -44,6 +49,7 @@ function setSendMessageSubmitBtn() {
 
          // show on chat textarea
          $('#chatarea').val( $('#chatarea').val() + "me: " + msg + "\n");
+         scrollTextareaToEnd();
 
          // empty input
          $("#inputMsg").val('');
@@ -126,6 +132,7 @@ function mqttSubscribeChatUser(chatUser) {
                             addFriendChatRecord( msg.message );
                         }
                     });
+                    scrollTextareaToEnd();
                 }
             }
 
