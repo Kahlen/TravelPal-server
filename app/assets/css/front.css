@@ -24,6 +24,7 @@
   float:left;
   padding:12px 0;
   height:auto;
+  cursor: default;
 }
 .nav ul li a
 {
