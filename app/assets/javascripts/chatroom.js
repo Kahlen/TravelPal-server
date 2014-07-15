@@ -95,6 +95,18 @@ function mqttSubscribeChatUser(chatUser) {
     console.log("subscribe topic: " + subscribeTopic);
     client.subscribe(subscribeTopic);
 
+    // notify server to subscribe this topic
+    $.ajax({
+            type: 'GET',
+            url: '/subscribe',
+            data: {"users": getCookie("userId") + "," + chatUser},
+            dataType: 'json',
+            success: function (data) {
+                console.log("server subscribe ok");
+            }
+
+        });
+
     // get chat history from server
     $.ajax({
             type: 'GET',

@@ -58,13 +58,6 @@ object Chat extends Controller {
         // topic: friend/me (the former one is reciever, the latter one is sender)
         publishOnTopic(topic, userInput, 2)
 
-        // save this message to db
-        val receiverId = topic.split("/")(0)
-        val allChatUsers = List(userId, receiverId)
-        val msgRecord = ChatRecord( userId, userInput, timestamp )
-        val msg2save = models.ChatHistory(allChatUsers, List(msgRecord))
-        ChatHistory.putMessageToDb(msg2save)
-
         Ok
       }
     )
@@ -95,9 +88,19 @@ object Chat extends Controller {
       var callback: MqttCallback = new MqttCallback() {
 
         //Handles Mqtt message
-        override def messageArrived(arg0: String, arg1: MqttMessage) {
+        override def messageArrived(topic: String, message: MqttMessage) {
           print("--- get MQTT message --- : ");
-          println(new String(arg1.getPayload()));
+          println(new String(message.getPayload()));
+
+          // save this message to db
+          val userId =  topic.split("/")(1)
+          val receiverId = topic.split("/")(0)
+          val allChatUsers = List(userId, receiverId)
+          // TODO: get timestamp
+          val msgRecord = ChatRecord( userId, new String(message.getPayload), "" )
+          val msg2save = models.ChatHistory(allChatUsers, List(msgRecord))
+          ChatHistory.putMessageToDb(msg2save)
+
         }
 
         override def deliveryComplete(arg0: IMqttDeliveryToken) {
@@ -134,6 +137,13 @@ object Chat extends Controller {
       case e: Exception =>
         println(e.getStackTrace)
     }
+  }
+
+  def subscribe(u: String) = Action {
+    val users = u.split(",")
+    subscribeTopic( users(0) + "/" + users(1), 2 )
+    subscribeTopic( users(1) + "/" + users(0), 2 )
+    Ok
   }
 
 }

@@ -38,7 +38,7 @@ object ChatHistory extends Controller with MongoController {
             collection.insert(msg)
           } else {
             // update
-            Logger.debug("update history")
+            Logger.debug("update history: " + msg.history(0).message)
             collection.update(
               Json.obj("users" -> Json.obj( "$size" -> msg.users.length, "$all" -> msg.users )),
               Json.obj("$push" -> Json.obj( "history" -> Json.obj("$each" -> msg.history)   ))
