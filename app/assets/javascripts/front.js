@@ -29,7 +29,10 @@ function setupPage() {
 
 function logout() {
 
-    $("#meBtn").click(function() {
+    // put username at upper right
+    $("#userPlace").text( getCookie("userId") );
+
+    $("#userPlace").click(function() {
         console.log("logout clicked");
         // remove cookie
         deleteCookie("userId");
@@ -41,5 +44,16 @@ function logout() {
 
 function deleteCookie(name) {
     document.cookie = name+'="";-1; path=/';
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) != -1) return c.substring(name.length,c.length);
+    }
+    return "";
 }
 

@@ -12,6 +12,7 @@
 
 .nav
 {
+  width: 100%;
   position:relative;
   float:left;
   left:5%;
@@ -46,4 +47,10 @@
   -webkit-box-shadow: inset 0 -4px 0 0 #049991;
   -moz-box-shadow: inset 0 -4px 0 0 #049991;
   box-shadow: inset 0 -4px 0 0 #049991;
+}
+
+ul > li:last-child
+{
+    float:right;
+    padding-right: 150px;
 }
