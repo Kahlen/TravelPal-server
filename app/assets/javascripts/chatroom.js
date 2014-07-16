@@ -90,6 +90,7 @@ function registerMqtt() {
 
       // append message to chat textarea
       $('#chatarea').append('<p class="mensagem2 toggle">'+msg+'</p>');
+      scrollTextareaToEnd();
     }
 
 }
