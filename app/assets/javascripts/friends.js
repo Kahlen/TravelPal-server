@@ -33,6 +33,7 @@ function getFriends() {
                 friendClick();
 //                $('#friendsList .list').append('<li><h3 class="name">User: '+ user._id +'</h3></li>');
               });
+              $("#removeList").append("<li class='me' style='display: none;'><i class='icon-minus pull-right'></i></li>");
         }
 
     });
