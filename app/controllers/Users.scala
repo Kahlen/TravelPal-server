@@ -79,10 +79,10 @@ object Users extends Controller with MongoController {
             // handle duplicated user id here
             Logger.debug("duplicate user id")
           }
-          Ok("user already exist")
+          NotAcceptable("user already exist")
         case e: Exception =>
           e.printStackTrace()
-          Ok
+          InternalServerError
       }
     }.getOrElse(Future.successful(BadRequest("invalid json")))
   }
