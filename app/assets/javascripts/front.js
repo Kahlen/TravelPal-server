@@ -7,9 +7,21 @@ $(document).ready( function() {
 function setupBtn(btn, tag) {
     $(btn).click(function() {
     console.log(tag + " clicked");
+
+      $('ul li a').each(function(i) {
+         if ($(this).hasClass('active') ) {
+              //toggle other tab to non-active if it was previously active
+              $(this).removeClass('active');
+         }
+      });
+
+      $(btn).addClass('active');
+
       $('#content').load(tag, function() {
               $(this).trigger('create');
           });
+
+      return false;
     });
 }
 
