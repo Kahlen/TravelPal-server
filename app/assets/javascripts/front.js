@@ -17,12 +17,29 @@ function setupBtn(btn, tag) {
 
       $(btn).addClass('active');
 
-      $('#content').load(tag, function() {
-              $(this).trigger('create');
-          });
+      if ( tag == "newtrip" ) {
+          console.log("add head");
+          var link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = 'http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css';
+          document.getElementsByTagName('head')[0].appendChild(link);
+
+          var script = document.createElement('script');
+          script.src = 'http://code.jquery.com/ui/1.10.2/jquery-ui.js';
+          document.getElementsByTagName('head')[0].appendChild(script);
+          setTimeout( loadContentPage(tag), 5000 );
+      } else {
+        loadContentPage(tag);
+      }
 
       return false;
     });
+}
+
+function loadContentPage(tag) {
+    $('#content').load(tag, function() {
+       $(this).trigger('create');
+     });
 }
 
 function setupPage() {

@@ -1,0 +1,389 @@
+#booking {
+	margin: 30px auto 0;
+	width: 394px;
+	font-family: Helvetica, sans-serif;
+	
+	-webkit-box-sizing: border-box; /* Android ≤ 2.3, iOS ≤ 4 */
+    -moz-box-sizing: border-box; /* Firefox 1+ */
+    box-sizing: border-box; /* Chrome, IE 8+, Opera, Safari 5.1 */
+    padding-top: 200px;
+}
+
+.field {
+	position: relative;
+}
+
+#booking label {
+	color: #5c3814;
+	font-family: Helvetica, sans-serif;
+	font-size: 9pt;
+	font-weight: bold;
+}
+
+#check-in,
+#check-out {
+	height: 27px;
+	
+	-webkit-box-sizing: border-box; /* Android ≤ 2.3, iOS ≤ 4 */
+    -moz-box-sizing: border-box; /* Firefox 1+ */
+    box-sizing: border-box; /* Chrome, IE 8+, Opera, Safari 5.1 */
+	
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+	
+	-webkit-appearance: none;
+}
+
+#check-in,
+#check-out,
+#booking select {
+	padding: 3px;
+	border: 2px #e3dfdc solid;
+}
+
+#check-in,
+#check-out {
+	color: #57370c;
+	font-family: Helvetica, sans-serif;
+	font-size: 8pt;
+}
+
+.divider{
+width: 160px;
+height: 4px;
+background-color: #e3dfdc;
+display: block;
+}
+
+#booking-top {
+	height: 120px;
+	padding: 0;
+	width: 100%;
+	overflow: hidden;
+	background-color: #f9f6ef;
+	
+	-webkit-box-sizing: border-box; /* Android ≤ 2.3, iOS ≤ 4 */
+    -moz-box-sizing: border-box; /* Firefox 1+ */
+    box-sizing: border-box; /* Chrome, IE 8+, Opera, Safari 5.1 */
+}
+
+#booking-top h2 {
+	display: block;
+	margin-bottom: .75em !important;
+	color: white;
+	font-family: Helvetica, sans-serif;
+	font-size: 9pt;
+	line-height: 1;
+	
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+}
+
+#check-in-field,
+#check-out-field {
+	position: relative;
+	float: left;
+	width: 97px;
+	height: 44px;
+}
+
+#check-in-field{
+	margin: 16px 11px 0 22px;
+}
+
+#check-out-field{
+	margin: 16px 11px 0 0;
+}
+
+#check-in-field label,
+#check-out-field label {
+	display: block;width: 97px;
+}
+
+#check-in-field input,
+#check-out-field input {
+	width: 97px;
+	margin-top: 3px;
+}
+
+.ui-datepicker {
+	z-index: 200 !important;
+}
+
+.ui-datepicker-trigger {
+	position: absolute;
+	bottom: 1px;
+	right: 2px;
+	height: 23px;
+	overflow: hidden;
+}
+
+#check-rates-field {
+	float: left;
+	width: 105px;
+	position: relative;
+    top: calc(50% - 30px);
+    padding-left: 10px;
+}
+
+#check-rates {
+	background-color: #c1ab56;
+	color: white;
+	border: none;
+	padding: 7.25px;
+	font-family: Helvetica, sans-serif;
+	font-size: 12pt;
+	text-align: center;
+	margin-top: 2px;
+	width: 100%;
+	
+	-webkit-box-sizing: border-box; /* Android ≤ 2.3, iOS ≤ 4 */
+    -moz-box-sizing: border-box; /* Firefox 1+ */
+    box-sizing: border-box; /* Chrome, IE 8+, Opera, Safari 5.1 */
+}
+
+#check-rates span:after {
+	content: "►";
+	padding-left: 1em;
+	font-size: .75em;
+	position: relative;
+	top: -1.5px;
+}
+
+@-moz-document url-prefix() {
+	.select-toggle { display: none; }
+}
+
+h2{
+margin: 0;
+height: 39px;
+background-color: #5c3814;
+color: #fff;
+font-size: 12px;
+padding: 10px 10px 10px 10px;
+box-sizing: border-box;
+}
+
+#booking #booking-bottom label{color:#fff;}
+
+
+
+
+/* slide animation */
+.newtrip-container {
+  position: fixed;
+  width: 200%;
+  height: 100%;
+  transition: transform .5s;
+  overflow: scroll;
+}
+
+.newtrip-section {
+  float: left;
+  position: relative;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.newtrip-create-section {
+  background: rgba(white, .5);
+  overflow: hidden;
+}
+.newtrip-friend-section {
+  background: rgba(black, .5);
+  overflow: hidden;
+}
+
+.slide {
+  transform: translate(-50%);
+}
+
+/* friend list */
+@import url('http://fonts.googleapis.com/css?family=Armata');
+
+#newtrip-friend-list-div {
+  font-family: "Armata", sans-serif;
+  font-size: 14px;
+  color: #222;
+  width: 700px;
+}
+
+#newtrip-friend-list {
+  list-style: none;
+}
+
+.me {
+  padding: 15px;
+  background-color: #1A8BB2;
+  border-bottom: 1px solid #f2f2f2;
+  margin-top: 1px;
+  width: 180px;
+  cursor: default;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.me:first-child {
+  border-top: 1px solid #f2f2f2;
+}
+
+.me:hover {
+  background-color: #B25E4F;
+  color: black;
+}
+
+.me.pressed {
+  background-color: #FFAC78;
+}
+
+.me.double {
+  background-color: #FF0080;
+}
+
+.me:hover i.icon-minus, button:hover i.icon-plus {
+  display: block;
+  opacity: 1;
+}
+
+#add {
+  padding: 15px;
+  background-color: #87CCB2;
+  border: 1px solid #f2f2f2;
+  width: 210px;
+  margin-left: 40px;
+  text-align: left;
+  cursor: default;
+  transition: background-color 0.3s ease-in-out;
+}
+
+#add:hover {
+  background-color: #FFAC78;
+  color: black;
+}
+
+i.icon-minus, i.icon-plus {
+  display: none;
+}
+
+.newtrip-friend-section-title-container {
+    margin: 0px auto;
+    text-align: center;
+    padding-right: 100px;
+}
+
+.newtrip-destination-title {
+  font-size: 30px;
+  padding: 10px 0 0 0px;
+}
+
+/* calendar icon */
+.time-icon{
+  font-size: 1em;
+  display:block;
+  position: absolute;
+  width: 8em;
+  height: 8em;
+  background-color: #fff;
+  box-shadow: 0 0 0 1px #e6e6e6, 0 2px 0 #bdbdbd;
+  overflow: hidden;
+  font-family:Roboto, sans-serif;
+  transition: all 0.1s linear;
+  margin:30px;
+  border-radius: 1em;
+  -webkit-user-select: none;
+}
+.time-icon:hover{
+  cursor:default;
+}
+.time-icon *{
+  position: absolute;
+  width: 100%;
+  font-size: 1.5em;
+  font-weight: 100;
+  font-style: normal;
+  text-align: center;
+  transition: all 0.2s linear;
+}
+.time-icon strong{
+  top: 0;
+  padding: 0.5em 0;
+  color: #fff;
+  background-color: #43B4FA;
+}
+.time-icon em{
+  bottom: 0em;
+  color: #43B4FA;
+  font-size:1.3em;
+  letter-spacing:1px;
+}
+.time-icon span{
+  font-size: 2.8em;
+  top:45%;
+  color: #2f2f2f;
+}
+
+/* friend list page left/right column */
+.newtrip-friend-section-right {
+  width: 500px;
+  float: right;
+}
+
+.newtrip-friend-section-left {
+  width: auto;
+  height: 500px;
+  float: none;
+  overflow: hidden;
+}
+
+/* time icon left/right */
+.newtrip-time-icon-container {
+    height: 300px;
+    width: auto;
+    overflow: hidden;
+}
+
+.time-icon-right {
+    /* right */
+    width: 300px;
+    float: right;
+}
+
+.time-icon-left {
+    /* left */
+    float: none;
+    width: auto;
+    overflow: hidden;
+}
+
+/* button */
+.newtrip-button {
+   background: tomato;
+   color: #fff;
+   cursor: pointer;
+   display: inline-block;
+   margin: auto;
+   padding: 5px 20px;
+   text-align: center;
+   @include position(absolute, -60px 0px 0px 0px);
+   @include size(200px 1.25em);
+   height: auto;
+   overflow: hidden;
+}
+
+.newtrip-button:hover {
+  background: #DF3A01;
+}
+
+.newtrip-btn-right {
+    width: 250px;
+    float: right;
+    height: auto;
+}
+
+.newtrip-btn-left {
+    float: none; /* not needed, just for clarification */
+    width: 200px;
+    overflow: hidden;
+    padding-left: 40px;
+}

@@ -6,19 +6,86 @@
     <meta charset="UTF-8"/>
     <title>TravelPal</title>
 
-    <link rel="stylesheet" media="screen" href='@routes.Assets.at("css/friends.css")'></link>
+    <link rel="stylesheet" media="screen" href='@routes.Assets.at("css/newtrip.css")'></link>
 
-    <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
-    <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery.cookie.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/newtrip.js")'></script>
 
 </head>
 
 <body>
 
-<h1>newtrip under construction</h1>
+<div class="newtrip-container">
+    <div class="newtrip-section newtrip-create-section">
+        <form id="booking">
 
+            <h2>Destination: <input type="text" name="destination" id="destination" size="50"></h2>
+            <div id="booking-top">
+                <span class="divider"></span>
+                <div id="check-in-field" class="field">
+                    <label for="check-in">Start</label>
+                    <input id="check-in" name="arrival" type="date" value="<?php echo date('Y-m-d'); ?>">
+                </div>
+
+                <div id="check-out-field" class="field">
+                    <label for="check-out">End</label>
+                    <input id="check-out" name="departure" type="date" value="<?php echo date('Y-m-d', time() + 24 * 60 * 60); ?>">
+                </div>
+
+                <div id="check-rates-field" class="field">
+                    <input id="check-rates" type="button" value="Create">
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+
+    <div class="newtrip-section newtrip-friend-section">
+
+        <div class="newtrip-friend-section-right">
+            <div id="newtrip-friend-list-div">
+                <ul id="newtrip-friend-list">
+                    <!--Add friends here-->
+                    <!--<li class="me">Remove me <i class="icon-minus pull-right"></i></li>-->
+                </ul>
+            </div>
+        </div>
+
+        <div class="newtrip-friend-section-left">
+            <div class="newtrip-friend-section-title-container">
+                <p class="newtrip-destination-title"></p>
+            </div>
+
+
+            <div class="newtrip-time-icon-container">
+
+                <div class="time-icon-right">
+                    <time class="time-icon time-icon-end">
+                        <strong></strong>
+                        <span></span>
+                        <em></em>
+                    </time>
+                </div>
+
+                <div class="time-icon-left">
+                    <time class="time-icon time-icon-start">
+                        <strong></strong>
+                        <span></span>
+                        <em></em>
+                    </time>
+                </div>
+
+            </div>
+
+            <div class="newtrip-btn-group">
+                <div class="newtrip-btn-right"><a class="newtrip-button" id="ok-button">OK</a></div>
+                <div class="newtrip-btn-left"><a class="newtrip-button" id="back-button">Back</a></div>
+            </div>
+
+        </div>
+
+    </div>
 </div>
-
 
 </body>
 </html>
