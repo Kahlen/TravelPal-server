@@ -10,6 +10,7 @@ GET     /user                       controllers.Users.create(id: String, passwor
 POST    /login                      controllers.Users.loginFromJson
 POST    /create                     controllers.Users.createFromJson
 GET     /searchf                    controllers.Users.findFriendsWithRelation(id: String)
+GET     /searchff                   controllers.Users.findFriendsWithFriend(id: String)
 POST    /addf                       controllers.Users.addFriends
 POST    /removef                    controllers.Users.removeFriends
 

@@ -201,6 +201,44 @@ object Users extends Controller with MongoController {
     }
   }
 
+  def findFriendsWithFriend(id: String) = Action.async {
+    val cursor: Cursor[FriendsOf] = collection.
+      // find all people with name `name`
+      find(Json.obj( "friends" -> id )).
+      // sort them by creation date
+      sort(Json.obj("_id" -> 1)).
+      // perform the query and get a cursor of JsObject
+      cursor[FriendsOf]
+
+    // gather all the JsObjects in a list
+    val futureUsersList: Future[List[FriendsOf]] = cursor.collect[List]()
+
+    // transform the list into a JsArray
+    val futurePersonsJsonArray: Future[JsArray] = futureUsersList.map { persons =>
+      Logger.debug("persons: " + persons)
+
+      var friendsResult: JsArray = JsArray()
+      persons.foreach{ p =>
+        p match {
+          case FriendsOf(fid,_,_,_) =>
+            // show all the ids except current user
+            Logger.debug("id: " + fid)
+            friendsResult = friendsResult ++ Json.arr(fid)
+        }
+      }
+
+      friendsResult
+    }
+
+    // everything's ok! Let's reply with the array
+    futurePersonsJsonArray.map { persons =>
+      Logger.debug("findFriendsWithFriend: " + persons)
+      // return json value
+      Ok(JsObject("friends" -> persons::Nil))
+    }
+
+  }
+
   def findUserById(id: String) = Action.async {
     // let's do our query
     val cursor: Cursor[User] = collection.
