@@ -1,6 +1,8 @@
 /**
  * Scripts for the booking widget.
  */
+ var destination = "";
+
 $(document).ready(function() {
     console.log("newtrip ready");
 	setupDatepicker();
@@ -54,15 +56,6 @@ function setupDatepicker() {
         }
     });
 
-	if( navigator.userAgent.match(/Android/i) ||
-		navigator.userAgent.match(/webOS/i) ||
-		navigator.userAgent.match(/iPhone/i) ||
-		navigator.userAgent.match(/iPod/i)
-	) {
-		$("#check-in").attr("readonly", true);
-		$("#check-out").attr("readonly", true);
-	}
-
 	$("#check-in").datepicker("setDate", new Date());
 	$("#check-in").change();
 	$("#check-out").datepicker("setDate", new Date());
@@ -72,7 +65,7 @@ function setupDatepicker() {
 
 function setCreateBtn() {
     $('#check-rates').click( function() {
-        var destination = $('#destination').val();
+        destination = $('#destination').val();
         var startDate = $('#check-in').val();
         var endDate = $('#check-out').val();
         console.log("destination: " + destination + ", " + startDate + " ~ " + endDate);
@@ -117,7 +110,52 @@ function setBackOkBtn() {
     });
     $('#ok-button').click(function(){
         // TODO: save friend list to server
+
+
+        var partnerJsonObj = [];
+        $('ul li').each(function(i) {
+           if ($(this).is('.me.pressed')) {
+                //toggle other tab to non-active if it was previously active
+                var partner = $(this).text();
+                partnerJsonObj.push(partner);
+           }
+        });
+
+        var requestBody = "";
+        if ( partnerJsonObj.length === 0 ) {
+            requestBody += '{"user":"' + getCookie("userId") + '","destination":"' + destination + '","start":"' + $("#check-in").val() + '","end":"' + $("#check-out").val() + '"}';
+        } else {
+            requestBody = '{"user":"' + getCookie("userId") + '","destination":"' + destination + '","start":"' + $("#check-in").val() + '","end":"' + $("#check-out").val() + '","partners":[';
+            $.each(partnerJsonObj, function(index, value){
+                requestBody += '"' + value + '",';
+            });
+            requestBody = requestBody.substring(0, requestBody.length-1);
+            requestBody += ']}';
+        }
+
+
+        console.log("requestBody: " + requestBody);
+
+        $.ajax({url: '/additinerary',
+            data: requestBody,
+            type: 'POST',
+            async: 'true',
+            dataType: 'application/json',
+            contentType: 'application/json',
+            complete: function(xhr, statusText) {
+                // This callback function will trigger on data sent/received complete
+                console.log("login complete: " + xhr.status);
+            },
+            error: function (xhr, statusText, err) {
+                // This callback function will trigger on unsuccessful action
+                console.log("login error: " + xhr.status);
+            }
+        });
+        console.log("ok clicked");
+
         $('#myTripsBtn').trigger('click');
+        return false;
+
     });
 }
 
@@ -125,25 +163,20 @@ function getUsersFriends() {
 
     $.ajax({
         type: 'GET',
-        url: '/searchf',
+        url: '/searchff',
         data: {"id": getCookie("userId")},
         dataType: 'json',
         success: function (data) {
             console.log("data: " + data);
             var friends = data.friends;
             $.each(friends, function(index,user) {
-                var item = $("<li class='me' style='display: none;'>" + user._id + "<i class='icon-minus pull-right'></i></li>");
+                var item = $("<li class='me' style='display: none;'>" + user + "<i class='icon-minus pull-right'></i></li>");
 
 
                 $("#newtrip-friend-list").append(item);
 
-                if ( user.isFriend ) {
-                    // TODO: press to add to list
-                    item.toggleClass("pressed");
-                }
-
                 $("#newtrip-friend-list").find("li.me:last-child").slideDown();
-//                setUsersFriendsClick();
+                setUsersFriendsClick();
               });
               $("#newtrip-friend-list").append("<li class='me' style='display: none;'><i class='icon-minus pull-right'></i></li>");
         }
@@ -166,44 +199,9 @@ function setUsersFriendsClick() {
       console.log("requestBody = " + requestBody);
 
       if ( $(this).is('.me.pressed') ) {
-        // TODO: --- add friend ---
         console.log("add friend to travel partner: " + user);
-
-        $.ajax({url: '/addf',
-            data: requestBody,
-            type: 'POST',
-            async: 'true',
-            dataType: 'application/json',
-            contentType: 'application/json',
-            complete: function(xhr, statusText) {
-                // This callback function will trigger on data sent/received complete
-                console.log("login complete: " + xhr.status);
-            },
-            error: function (xhr, statusText, err) {
-                // This callback function will trigger on unsuccessful action
-                console.log("login error: " + xhr.status);
-            }
-        });
-
-
       } else {
-        // TODO: --- remove friend ---
         console.log("remove friend from travel partner: " + user);
-        $.ajax({url: '/removef',
-            data: requestBody,
-            type: 'POST',
-            async: 'true',
-            dataType: 'application/json',
-            contentType: 'application/json',
-            complete: function(xhr, statusText) {
-                // This callback function will trigger on data sent/received complete
-                console.log("login complete: " + xhr.status);
-            },
-            error: function (xhr, statusText, err) {
-                // This callback function will trigger on unsuccessful action
-                console.log("login error: " + xhr.status);
-            }
-        });
       }
 
       return false;

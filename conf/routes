@@ -25,5 +25,8 @@ GET     /friends                    controllers.ContentManager.friends
 GET     /mytrip                     controllers.ContentManager.mytrip
 GET     /newtrip                    controllers.ContentManager.newtrip
 
+#Itinerary
+POST    /additinerary               controllers.Itinerary.createFromJson
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
