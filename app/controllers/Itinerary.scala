@@ -42,6 +42,14 @@ object Itinerary extends Controller with MongoController {
       Logger.debug("insert itinerary: " + itinerary)
       collection.insert(itinerary).map { lastError =>
         Logger.debug(s"Successfully inserted with LastError: $lastError")
+        itinerary.partners.foreach({ ps =>
+          ps.foreach({ p =>
+            val topic = p + "/" + itinerary.user + "/addItinerary"
+            Logger.debug("publish on topic(" + topic + ")")
+            Chat.publishOnTopic( topic, "new itinerary", 2 )
+          })
+        })
+
         Created
       } recover {
         // insert error
