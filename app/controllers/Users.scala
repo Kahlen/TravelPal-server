@@ -172,7 +172,7 @@ object Users extends Controller with MongoController {
       var friendsResult: JsArray = JsArray()
       persons.foreach{ p =>
         p match {
-          case FriendsOf(fid,_,_,x) =>
+          case FriendsOf(fid,_,name,x) =>
             if ( !fid.equals(id) ) {
               // show all the ids except current user
               Logger.debug("id: " + fid)
@@ -182,6 +182,7 @@ object Users extends Controller with MongoController {
               }
               val tmp = Json.obj(
                 "_id" -> fid,
+                "name" -> name,
                 "isFriend" -> isFriend
               )
 
@@ -220,10 +221,15 @@ object Users extends Controller with MongoController {
       var friendsResult: JsArray = JsArray()
       persons.foreach{ p =>
         p match {
-          case FriendsOf(fid,_,_,_) =>
+          case FriendsOf(fid,_,name,_) =>
             // show all the ids except current user
-            Logger.debug("id: " + fid)
-            friendsResult = friendsResult ++ Json.arr(fid)
+            Logger.debug("id: " + fid + ", name: " + name)
+            val tmp = Json.obj(
+              "_id" -> fid,
+              "name" -> name
+            )
+
+            friendsResult = tmp +: friendsResult
         }
       }
 

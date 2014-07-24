@@ -170,7 +170,7 @@ function getUsersFriends() {
             console.log("data: " + data);
             var friends = data.friends;
             $.each(friends, function(index,user) {
-                var item = $("<li class='me' style='display: none;'>" + user + "<i class='icon-minus pull-right'></i></li>");
+                var item = $("<li class='me' style='display: none;'>" + user._id + "<i class='icon-minus pull-right'></i></li>");
 
 
                 $("#newtrip-friend-list").append(item);
