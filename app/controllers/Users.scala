@@ -69,7 +69,7 @@ object Users extends Controller with MongoController {
       // `user` is an instance of the case class `models.User`
       collection.insert(user).map { lastError =>
         Logger.debug(s"Successfully inserted with LastError: $lastError")
-        Created
+        Created(Json.toJson(user))
       } recover {
         // insert error
         case e: DatabaseException =>
@@ -86,7 +86,6 @@ object Users extends Controller with MongoController {
       }
     }.getOrElse(Future.successful(BadRequest("invalid json")))
   }
-
 
   def loginFromJson = Action.async(parse.json) { request =>
     /*
@@ -118,7 +117,7 @@ object Users extends Controller with MongoController {
         if (persons.isEmpty) {
           NotFound("user not found")
         } else {
-          Redirect("/chat")
+          Ok(Json.toJson(persons(0)))
         }
       }
     }.getOrElse(Future.successful(BadRequest("invalid json")))

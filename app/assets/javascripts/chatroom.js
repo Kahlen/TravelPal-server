@@ -23,7 +23,7 @@ function setSendMessageSubmitBtn() {
 
          // post to server
          // publish to topic = friend/me
-         var publishTopic = currentChatFriend + "/" + getCookie("userId");
+         var publishTopic = currentChatFriend + "/" + getCookie("userId") + "/newChat";
          var requestBody = '{"userId":"' + getCookie("userId") + '","message":"'+msg + '","timestamp":"'+ Date.now() + '","topic":"' + publishTopic + '"}';
          console.log("requestBody = " + requestBody);
          $.ajax({url: '/chat',
