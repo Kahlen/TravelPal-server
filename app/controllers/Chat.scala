@@ -151,6 +151,7 @@ object Chat extends Controller {
     subscribeTopic(u + "/+/newChat", 2)
     subscribeTopic(u + "/+/addItinerary", 2)
     subscribeTopic(u + "/+/updateItinerary", 1)
+    subscribeTopic(u + "/+/addFriend", 0)
   }
 
 }

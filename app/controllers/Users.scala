@@ -281,6 +281,8 @@ object Users extends Controller with MongoController {
           Logger.debug("friend: " + friend)
           collection.update(Json.obj("_id" -> id), Json.obj("$push" -> Json.obj("friends" -> friend)))
           collection.update(Json.obj("_id" -> friend), Json.obj("$push" -> Json.obj("friends" -> id)))
+          val topic = friend + "/" + id + "/addFriend"
+          Chat.publishOnTopic(topic, "addFriend", 0)
           Ok
       }.recoverTotal{
         e => BadRequest("Detected error:"+ JsError.toFlatJson(e))
