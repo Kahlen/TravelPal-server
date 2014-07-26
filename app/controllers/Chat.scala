@@ -15,7 +15,9 @@ import org.eclipse.paho.client.mqttv3.MqttClientPersistence
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.MqttMessage
-import org.eclipse.paho.client.mqttv3.MqttTopic;
+import org.eclipse.paho.client.mqttv3.MqttTopic
+import java.util.Calendar
+;
 
 /**
  * Created by kahlenlin on 6/30/14.
@@ -81,8 +83,6 @@ object Chat extends Controller {
 
       //Connect to MqttBroker
       clientMQ.connect( mqttOptions )
-      //TODO: Subscribe to Mqtt topic
-      subscribeTopic("hello",2)
 
       //Callback automatically triggers as and when new message arrives on specified topic
       var callback: MqttCallback = new MqttCallback() {
@@ -95,12 +95,13 @@ object Chat extends Controller {
           // save this message to db
           val userId =  topic.split("/")(1)
           val receiverId = topic.split("/")(0)
-          val allChatUsers = List(userId, receiverId)
-          // TODO: get timestamp
-          val msgRecord = ChatRecord( userId, new String(message.getPayload), "" )
-          val msg2save = models.ChatHistory(allChatUsers, List(msgRecord))
-          ChatHistory.putMessageToDb(msg2save)
-
+          val messageType = topic.split("/")(2)
+          if ( messageType == "newChat" ) {
+            val allChatUsers = List(userId, receiverId)
+            val msgRecord = ChatRecord( userId, new String(message.getPayload), Calendar.getInstance().getTime().toString )
+            val msg2save = models.ChatHistory(allChatUsers, List(msgRecord))
+            ChatHistory.putMessageToDb(msg2save)
+          }
         }
 
         override def deliveryComplete(arg0: IMqttDeliveryToken) {
@@ -144,6 +145,12 @@ object Chat extends Controller {
     subscribeTopic( users(0) + "/" + users(1), 2 )
     subscribeTopic( users(1) + "/" + users(0), 2 )
     Ok
+  }
+
+  def subscribeEverythingOnId( u: String ) = {
+    subscribeTopic(u + "/+/newChat", 2)
+    subscribeTopic(u + "/+/addItinerary", 2)
+    subscribeTopic(u + "/+/updateItinerary", 1)
   }
 
 }

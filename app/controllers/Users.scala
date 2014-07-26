@@ -69,6 +69,8 @@ object Users extends Controller with MongoController {
       // `user` is an instance of the case class `models.User`
       collection.insert(user).map { lastError =>
         Logger.debug(s"Successfully inserted with LastError: $lastError")
+        // subscribe everything about this id
+        Chat.subscribeEverythingOnId(user._id)
         Created(Json.toJson(user))
       } recover {
         // insert error
@@ -117,6 +119,8 @@ object Users extends Controller with MongoController {
         if (persons.isEmpty) {
           NotFound("user not found")
         } else {
+          Chat.subscribeEverythingOnId(user._id)
+          Logger.debug("--- subscribe everything after login")
           Ok(Json.toJson(persons(0)))
         }
       }
