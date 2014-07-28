@@ -64,4 +64,20 @@ object Itinerary extends Controller with MongoController {
     }.getOrElse(Future.successful(BadRequest("invalid json")))
   }
 
+  def getItineraryByUser(user: String) = Action.async {
+    Logger.debug("getItineraryByUser: " + user)
+
+    val cursor: Cursor[ItineraryRecord] = collection.
+      // {"$or":[ { "user":user }, { "partners":{ $in:[user] } } ]}
+      find(Json.obj("$or" ->  Json.arr( Json.obj( "user" -> user ), Json.obj("partners" -> Json.obj( "$in" -> Json.arr(user) ) ) ) )).
+      sort(Json.obj("start" -> 1)).
+      cursor[ItineraryRecord]
+
+    val futureItineraryList: Future[List[ItineraryRecord]] = cursor.collect[List]()
+    futureItineraryList.map { i =>
+      // convert scala list to json array
+      Ok(JsObject("itineraries"->Json.toJson(i)::Nil))
+    }
+  }
+
 }
