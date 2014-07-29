@@ -1,16 +1,30 @@
 $(document).ready( function() {
     setCreateCommentBtn();
+    replaceLineBreak();
 });
+
+function replaceLineBreak() {
+
+    $(".trip_content_feed").each(function(){
+        var content = $(this).html();
+        // replace /n to <br> for existing comments
+        content = nl2br(content);
+        $(this).html(content);
+    });
+
+}
 
 function setCreateCommentBtn() {
     $('.trip_content_container button').click( function () {
-        var inputComment = nl2br($('#trip_comment').val());
+        var rawInput = $('#trip_comment').val();
+        var inputComment = nl2br(rawInput);
         $('#trip_comment').val('');
-        $('.trip_content_comment_area').prepend('<div class="trip_content_comments"><h5>' + getCookie("userName") + " (" + getCookie("userId") + ")" + '</h5><p>' + inputComment + '</p></div>');
+        $('.trip_content_comment_area').prepend('<div class="trip_content_comments"><h5>' + getCookie("userName") + " (" + getCookie("userId") + ")" + '</h5><p class="trip_content_feed">' + inputComment + '</p></div>');
 
         // post to server
         var iid = localStorage.getItem('iid');
-        postItineraryDetail2Server(iid, inputComment);
+        // replace line break to /n when posting to server
+        postItineraryDetail2Server(iid, nl2nl(rawInput));
     });
 }
 
@@ -39,4 +53,8 @@ function postItineraryDetail2Server(iid, comment) {
 function nl2br (str, is_xhtml) {
     var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ breakTag +'$2');
+}
+
+function nl2nl(str, is_xhtml) {
+    return str.replace(/(?:\r\n|\r|\n)/g, '\\n');
 }

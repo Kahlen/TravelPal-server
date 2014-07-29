@@ -23,7 +23,7 @@
         <!--<div class="trip_content_comments"></div>-->
         @idetails.data.map { list =>
             @for( p <- list ) {
-                <div class="trip_content_comments"><h5>@p.user.name (@p.user._id)</h5><p>@p.comment</p></div>
+                <div class="trip_content_comments"><h5>@p.user.name (@p.user._id)</h5><p class="trip_content_feed">@p.comment</p></div>
             }
         }
     </div>
