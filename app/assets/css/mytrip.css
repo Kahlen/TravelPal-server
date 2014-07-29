@@ -1,0 +1,53 @@
+.mytrip_item, .mytrip_item:before {
+  transition: all .4s;
+
+}
+.mytrip_list {
+  max-width: 500px;
+  margin: 2em auto;
+  padding-top: 60px;
+}
+.mytrip_list:hover .mytrip_item {
+  opacity: .4;
+}
+.mytrip_item {
+  position: relative;
+  display: block;
+  max-width: 500px;
+  padding: 20px 20px 20px 45px;
+  box-sizing: border-box;
+  color: #777;
+  background: #fAfAfA;
+  text-decoration: none;
+  font-family: "Open Sans", "Segoe UI", Arial, sans-serif;
+}
+.mytrip_item:before {
+  content: "";
+  position: absolute;
+  left:0; bottom:0; top:0;
+  width: 20px;
+  background: #7F8C9A;
+}
+.mytrip_item:nth-child(even):before {
+  background: #34495E;
+}
+.mytrip_item + .mytrip_item {
+  border-top: 2px solid #ededed;
+}
+.mytrip_list .mytrip_item:hover,
+.mytrip_list .mytrip_item:focus {
+  opacity: 1;
+  padding-left: 55px;
+}
+.mytrip_list .mytrip_item:hover:before,
+.mytrip_list .mytrip_item:focus:before {
+  width: 30px;
+}
+
+.destination {
+display: block;
+}
+
+.date {
+display: block;
+}
