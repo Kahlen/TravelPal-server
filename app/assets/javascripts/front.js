@@ -1,6 +1,7 @@
 $(document).ready( function() {
     var user = $.cookie("userId");
     console.log("user = " + user);
+    console.log("userJson = " + getUserDataJson());
     setupPage();
 });
 
@@ -86,3 +87,6 @@ function getCookie(cname) {
     return "";
 }
 
+function getUserDataJson() {
+    return '{"_id":"' + getCookie("userId") + '","password":"' + getCookie("userPassword") + '","name":"' + getCookie("userName") + '"}';
+}

@@ -32,7 +32,13 @@ function setItineraryItemClick() {
     $(".mytrip_list").off().on("click", ".mytrip_item", function(event) {
         var currentId = $(this).attr('id');
         console.log("_id(" + currentId + ") is clicked");
-        return false;
+
+        // get itinerary content
+        $.get( "/getitinerary?iid=" + currentId, function(data) {
+            localStorage.setItem('iid', currentId);
+            $('#content').html(data);
+        });
+
     });
 
 }

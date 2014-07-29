@@ -80,4 +80,51 @@ object Itinerary extends Controller with MongoController {
     }
   }
 
+
+  def detailCollection: JSONCollection = db.collection[JSONCollection]("itineraryDetail")
+  def getItineraryByIid(iid: String) = Action.async {
+    Logger.debug("getItineraryByIid: " + iid)
+
+    val cursor: Cursor[ItineraryDetail] = detailCollection.
+      // {"$or":[ { "user":user }, { "partners":{ $in:[user] } } ]}
+      find(Json.obj("_id" -> iid)).
+      cursor[ItineraryDetail]
+
+    val futureItineraryList: Future[List[ItineraryDetail]] = cursor.collect[List]()
+    futureItineraryList.map { i =>
+      // convert scala list to json array
+      if ( i.size > 0 )
+        Ok(views.html.tripContent(i(0)))
+      else
+        Ok(views.html.tripContent(ItineraryDetail(iid, None)))
+    }
+
+  }
+
+  implicit val uItineraryRequestJson2Obj = (
+    (__ \ '_id).read[String] and
+      (__ \ 'data).read[IteneraryComment]
+    ) tupled
+
+  def updateItinerary = Action { request =>
+    Logger.debug("update itinerary post: " + request)
+
+    request.body.asJson.map { json =>
+      json.validate[(String, IteneraryComment)].map{
+        case (_id, data) =>
+          // add friends to database
+          Logger.debug("data: " + data)
+          detailCollection.update(
+            Json.obj("_id" -> _id),
+            Json.obj("$push" -> Json.obj("data" -> data)),
+            upsert = true)
+          Ok
+      }.recoverTotal{
+        e => BadRequest("Detected error:"+ JsError.toFlatJson(e))
+      }
+    }.getOrElse {
+      BadRequest("Expecting Json data: " + request)
+    }
+  }
+
 }

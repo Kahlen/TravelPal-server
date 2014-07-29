@@ -27,7 +27,9 @@ GET     /newtrip                    controllers.ContentManager.newtrip
 
 #Itinerary
 POST    /additinerary               controllers.Itinerary.createFromJson
+POST    /updateitinerary            controllers.Itinerary.updateItinerary
 GET     /itinerary                  controllers.Itinerary.getItineraryByUser(user: String)
+GET     /getitinerary               controllers.Itinerary.getItineraryByIid(iid: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

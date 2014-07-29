@@ -26,9 +26,12 @@ function setSignInSubmitBtn() {
                     console.log("user not found");
                     $('.invalidLogin').css("display","inline");
                 } else {
+                    var userResult = $.parseJSON(xhr.responseText);
                     window.location.href = "/";
                     //set cookie
                     $.cookie("userId", user);
+                    $.cookie("userName", userResult.name);
+                    $.cookie("userPassword", userResult.password);
                 }
 
             },

@@ -1,0 +1,34 @@
+@(idetails: ItineraryDetail)
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">
+<head>
+    <meta charset="UTF-8"/>
+    <title>TravelPal</title>
+
+    <link rel="stylesheet" media="screen" href='@routes.Assets.at("css/tripContent.css")'></link>
+
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/tripContent.js")'></script>
+
+</head>
+
+<body>
+
+    <div class="trip_content_container">
+        <textarea name="body" id="trip_comment" cols="30" rows="10" autofocus="true" placeholder="Write new details of the trip!"></textarea>
+        <button>Post</button>
+    </div>
+
+    <div class="trip_content_comment_area">
+        <!--<div class="trip_content_comments"></div>-->
+        @idetails.data match { case Some(list) =>
+            @for( p <- list ) {
+                <div class="trip_content_comments"><h5>@p.user.name (@p.user._id)</h5><p>@p.comment</p></div>
+            }
+        }
+    </div>
+
+
+
+</body>
+</html>
