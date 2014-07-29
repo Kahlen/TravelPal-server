@@ -23,7 +23,21 @@
         <!--<div class="trip_content_comments"></div>-->
         @idetails.data.map { list =>
             @for( p <- list ) {
-                <div class="trip_content_comments"><h5>@p.user.name (@p.user._id)</h5><p class="trip_content_feed">@p.comment</p></div>
+                <div class="trip_content_comments">
+                    <h5>@p.user.name (@p.user._id)</h5><p class="trip_content_feed">@p.feed</p>
+                    <div class='fav_listings_comments_section'>
+                        <!--<div class='fav_comment'>-->
+                            <!--<div class='fav_comment_text'>Adam: My First comment</div>-->
+                            <!--<div class='fav_comment_time'>4 hours ago</div>-->
+                        <!--</div>-->
+                        <form class="trip_content_comment_textarea">
+                            <div class='fav_comment'>
+                                <textarea class='fav_comment_textarea' placeholder='Write a comment...' maxlength=1000></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
             }
         }
     </div>

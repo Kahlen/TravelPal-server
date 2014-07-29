@@ -51,3 +51,19 @@
     box-shadow: 0px 0px 20px #656D78;
 }
 
+.fav_comment_textarea
+{
+  resize: none;
+  height: 15px;
+  width: 500px;
+}
+.fav_comment{
+  background-color: #edeff4;
+  margin-top: 1px;
+  padding:5px;
+  width:510px;
+}
+.fav_comment_time{
+  font-size:13px;
+  color:grey;
+}

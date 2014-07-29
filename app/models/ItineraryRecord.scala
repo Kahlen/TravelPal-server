@@ -4,8 +4,8 @@ package models
  * Created by kahlenlin on 7/20/14.
  */
 case class ItineraryRecord (_id: String, user: String, destination: String, start: String, end: String, partners: Option[List[String]])
-case class IteneraryComment(user: User, comment: String, timestamp: Long)
-case class ItineraryDetail(_id: String, data: Option[List[IteneraryComment]])
+case class IteneraryFeed(user: User, feed: String, timestamp: Long)
+case class ItineraryDetail(_id: String, data: Option[List[IteneraryFeed]])
 
 
 object ItineraryJsonFormats {
@@ -15,6 +15,6 @@ object ItineraryJsonFormats {
   import JsonFormats._
 
   implicit val itineraryFormat = Json.format[ItineraryRecord]
-  implicit val itineraryCommentFormat = Json.format[IteneraryComment]
+  implicit val itineraryFeedFormat = Json.format[IteneraryFeed]
   implicit val itineraryDetailFormat = Json.format[ItineraryDetail]
 }

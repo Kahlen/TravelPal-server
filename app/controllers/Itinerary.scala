@@ -96,7 +96,7 @@ object Itinerary extends Controller with MongoController {
       if ( i.size > 0 ) {
         var iti = i(0)
         // reverse the order of comments (from new to old)
-        val result = ItineraryDetail(iti._id, iti.data.map{ comment => comment.reverse })
+        val result = ItineraryDetail(iti._id, iti.data.map{ feed => feed.reverse })
         Ok(views.html.tripContent(result))
       } else {
         Ok(views.html.tripContent(ItineraryDetail(iid, None)))
@@ -107,14 +107,14 @@ object Itinerary extends Controller with MongoController {
 
   implicit val uItineraryRequestJson2Obj = (
     (__ \ '_id).read[String] and
-      (__ \ 'data).read[IteneraryComment]
+      (__ \ 'data).read[IteneraryFeed]
     ) tupled
 
   def updateItinerary = Action { request =>
     Logger.debug("update itinerary post: " + request)
 
     request.body.asJson.map { json =>
-      json.validate[(String, IteneraryComment)].map{
+      json.validate[(String, IteneraryFeed)].map{
         case (_id, data) =>
           // add friends to database
           Logger.debug("data: " + data)
