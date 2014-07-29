@@ -4,7 +4,7 @@ package models
  * Created by kahlenlin on 7/20/14.
  */
 case class ItineraryRecord (_id: String, user: String, destination: String, start: String, end: String, partners: Option[List[String]])
-case class IteneraryComment(user: User, comment: String)
+case class IteneraryComment(user: User, comment: String, timestamp: Long)
 case class ItineraryDetail(_id: String, data: Option[List[IteneraryComment]])
 
 

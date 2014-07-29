@@ -6,7 +6,7 @@ function setCreateCommentBtn() {
     $('.trip_content_container button').click( function () {
         var inputComment = nl2br($('#trip_comment').val());
         $('#trip_comment').val('');
-        $('.trip_content_comment_area').prepend('<div class="trip_content_comments"><h5>' + getCookie("userId") + '</h5><p>' + inputComment + '</p></div>');
+        $('.trip_content_comment_area').prepend('<div class="trip_content_comments"><h5>' + getCookie("userName") + " (" + getCookie("userId") + ")" + '</h5><p>' + inputComment + '</p></div>');
 
         // post to server
         var iid = localStorage.getItem('iid');
@@ -15,7 +15,8 @@ function setCreateCommentBtn() {
 }
 
 function postItineraryDetail2Server(iid, comment) {
-    var requestBody = '{"_id":"' + iid + '","data":{"user":' + getUserDataJson() + ',"comment":"' + comment + '"}}';
+    var timestamp = new Date().getTime();
+    var requestBody = '{"_id":"' + iid + '","data":{"user":' + getUserDataJson() + ',"comment":"' + comment + '", "timestamp":' + timestamp + '}}';
     console.log("requestBody: " + requestBody);
     $.ajax({url: '/updateitinerary',
         data: requestBody,
@@ -33,12 +34,6 @@ function postItineraryDetail2Server(iid, comment) {
         }
     });
 }
-
-//function addExistingComments(data) {
-//    $.each(data, function(index, value){
-//        $('.trip_content_comment_area').prepend('<div class="trip_content_comments"><h5>' + getCookie("userId") + '</h5><p>' + inputComment + '</p></div>');
-//    });
-//}
 
 // convert line breaks to <br>
 function nl2br (str, is_xhtml) {

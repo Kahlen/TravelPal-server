@@ -93,10 +93,14 @@ object Itinerary extends Controller with MongoController {
     val futureItineraryList: Future[List[ItineraryDetail]] = cursor.collect[List]()
     futureItineraryList.map { i =>
       // convert scala list to json array
-      if ( i.size > 0 )
-        Ok(views.html.tripContent(i(0)))
-      else
+      if ( i.size > 0 ) {
+        var iti = i(0)
+        // reverse the order of comments (from new to old)
+        val result = ItineraryDetail(iti._id, iti.data.map{ comment => comment.reverse })
+        Ok(views.html.tripContent(result))
+      } else {
         Ok(views.html.tripContent(ItineraryDetail(iid, None)))
+      }
     }
 
   }
