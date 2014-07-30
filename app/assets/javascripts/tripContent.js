@@ -61,6 +61,28 @@ function makeComment() {
             var timestamp = new Date().getTime();
             $(this).parent().before('<div class="fav_comment"><div class="fav_comment_text">' + getCookie("userName") + " (" + getCookie("userId") + "): " + comment + '</div><div class="fav_comment_time">' + timeConverter(timestamp) + '</div></div>');
             $(this).val('');
+
+            // array order is reverse in database, so feedIndex should be length-index-1
+            var feedIndex =  $('.trip_content_comment_area').children().length - $(this).closest('.trip_content_comments').index() -1;
+            console.log("feedIndex: " + feedIndex);
+            var requestBody = '{"_id":"' + localStorage.getItem('iid') + '","index":' + feedIndex + ',"data":{"user":' + getUserDataJson() +',"comment":"' + comment + '","timestamp":"' + timeConverter(timestamp) + '"}}';
+            console.log("requestBody: " + requestBody);
+            $.ajax({url: '/itinerarycomment',
+                data: requestBody,
+                type: 'POST',
+                async: 'true',
+                dataType: 'application/json',
+                contentType: 'application/json',
+                complete: function(xhr, statusText) {
+                    // This callback function will trigger on data sent/received complete
+                    console.log("comment itinerary complete: " + xhr.status);
+                },
+                error: function (xhr, statusText, err) {
+                    // This callback function will trigger on unsuccessful action
+                    console.log("comment itinerary error: " + xhr.status);
+                }
+            });
+
             return false;
           }
         });

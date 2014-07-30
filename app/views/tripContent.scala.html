@@ -26,6 +26,14 @@
                 <div class="trip_content_comments">
                     <h5>@p.user.name (@p.user._id)</h5><p class="trip_content_feed">@p.feed</p>
                     <div class='fav_listings_comments_section'>
+                        @p.comments.map { feedComment =>
+                            @for( c <- feedComment) {
+                                <div class='fav_comment'>
+                                    <div class='fav_comment_text'>@c.user.name (@c.user._id): @c.comment</div>
+                                    <div class='fav_comment_time'>@c.timestamp</div>
+                                </div>
+                            }
+                        }
                         <!--<div class='fav_comment'>-->
                             <!--<div class='fav_comment_text'>Adam: My First comment</div>-->
                             <!--<div class='fav_comment_time'>4 hours ago</div>-->

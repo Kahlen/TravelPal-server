@@ -131,4 +131,40 @@ object Itinerary extends Controller with MongoController {
     }
   }
 
+  implicit val uItineraryCommentJson2Obj = (
+    (__ \ '_id).read[String] and
+      (__ \ 'index).read[Int] and
+      (__ \ 'data).read[ItineraryComment]
+    ) tupled
+
+  def commentItinerary = Action { request =>
+    Logger.debug("comment itinerary post: " + request)
+
+    request.body.asJson.map { json =>
+      json.validate[(String, Int, ItineraryComment)].map{
+        case (_id, index, data) =>
+          // add friends to database
+          Logger.debug("data: " + data)
+
+          /*
+          db.itineraryDetail.update(
+            {"_id":"0d21ad50-e3a6-4c55-a335-235518077b7f"},
+            {$push: {"data.2.comments":{"user":{"_id":"user1","password":"password","name":"nameee"},"comment":"test comment for this feeddddd","timestamp":1406665439899}}}
+          )
+          */
+
+          val commentIndexKey = "data." + index + ".comments"
+          detailCollection.update(
+            Json.obj("_id" -> _id),
+            Json.obj("$push" -> Json.obj(commentIndexKey -> data))
+            )
+          Ok
+      }.recoverTotal{
+        e => BadRequest("Detected error:"+ JsError.toFlatJson(e))
+      }
+    }.getOrElse {
+      BadRequest("Expecting Json data: " + request)
+    }
+  }
+
 }
