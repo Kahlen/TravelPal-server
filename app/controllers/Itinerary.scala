@@ -102,6 +102,33 @@ object Itinerary extends Controller with MongoController {
         Ok(views.html.tripContent(ItineraryDetail(iid, None)))
       }
     }
+  }
+
+  def getItineraryByIidJson(iid: String) = Action.async {
+    Logger.debug("getItineraryByIid: " + iid)
+
+    val cursor: Cursor[ItineraryDetail] = detailCollection.
+      // {"$or":[ { "user":user }, { "partners":{ $in:[user] } } ]}
+      find(Json.obj("_id" -> iid)).
+      cursor[ItineraryDetail]
+
+    // gather all the JsObjects in a list
+    val futureItineraryList: Future[List[ItineraryDetail]] = cursor.collect[List]()
+
+    // transform the list into a JsArray
+    val futureItineraryJsonArray: Future[JsArray] = futureItineraryList.map { iti =>
+      Json.arr(iti)
+    }
+
+    // everything's ok! Let's reply with the array
+    futureItineraryJsonArray.map { iti =>
+      if ( iti(0).toString != "[]" ) {
+        Ok(iti(0)(0))
+      } else {
+        NoContent
+      }
+
+    }
 
   }
 
