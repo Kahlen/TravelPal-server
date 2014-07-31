@@ -3,6 +3,9 @@ $(document).ready( function() {
     console.log("user = " + user);
     console.log("userJson = " + getUserDataJson());
     setupPage();
+
+    // register and subscribe MQTT as soon as logging in
+    registerMqtt();
 });
 
 function setupBtn(btn, tag) {
@@ -17,6 +20,8 @@ function setupBtn(btn, tag) {
       });
 
       $(btn).addClass('active');
+      if ( $(btn).hasClass("notify") )
+        $(btn).removeClass("notify");
 
       if ( tag == "newtrip" ) {
           console.log("add head");
@@ -90,3 +95,7 @@ function getCookie(cname) {
 function getUserDataJson() {
     return '{"_id":"' + getCookie("userId") + '","password":"' + getCookie("userPassword") + '","name":"' + getCookie("userName") + '"}';
 }
+
+$(window).unload( function () {
+    disconnectMqtt();
+});

@@ -19,7 +19,7 @@ function getFriends() {
             console.log("data: " + data);
             var friends = data.friends;
             $.each(friends, function(index,user) {
-                var item = $("<li class='me' style='display: none;'>" + user._id + "<i class='icon-minus pull-right'></i></li>");
+                var item = $("<li class='me' id='chat_" +user._id + "' style='display: none;'>" + user._id + "<i class='icon-minus pull-right'></i></li>");
 
 
                 $("#removeList").append(item);

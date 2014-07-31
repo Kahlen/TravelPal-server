@@ -3,7 +3,6 @@ var currentChatFriend = "*";
 
 $(document).ready( function() {
 
-    registerMqtt();
     setSendMessageSubmitBtn();
 
     var user = $.cookie("userId");
@@ -57,50 +56,9 @@ function setSendMessageSubmitBtn() {
     });
 }
 
-function registerMqtt() {
-
-    client.onConnectionLost = onConnectionLost;
-    client.onMessageArrived = onMessageArrived;
-
-    client.connect({onSuccess:onConnect, onFailure:onConnectFail});
-
-    // called when the client connects
-    function onConnect() {
-      // Once a connection has been made, make a subscription and send a message.
-      console.log("onConnect");
-      // client.subscribe("hello");
-    }
-
-    function onConnectFail() {
-        console.log("connection fail");
-        alert("MQTT client connect fail");
-    }
-
-    // called when the client loses its connection
-    function onConnectionLost(responseObject) {
-      if (responseObject.errorCode !== 0) {
-        console.log("onConnectionLost:"+responseObject.errorMessage);
-      }
-    }
-
-    // called when a message arrives
-    function onMessageArrived(message) {
-      var msg = message.payloadString;
-      console.log("onMessageArrived:"+msg);
-
-      // append message to chat textarea
-      $('#chatarea').append('<p class="mensagem2 toggle">'+msg+'</p>');
-      scrollTextareaToEnd();
-    }
-
-}
-
+// called when friend is double clicked from friends.js
 function mqttSubscribeChatUser(chatUser) {
     currentChatFriend = chatUser;
-    // subscribe me/#
-    var subscribeTopic = getCookie("userId") + "/#";
-    console.log("subscribe topic: " + subscribeTopic);
-    client.subscribe(subscribeTopic);
 
     // notify server to subscribe this topic
     $.ajax({
@@ -115,6 +73,8 @@ function mqttSubscribeChatUser(chatUser) {
         });
 
     // get chat history from server
+    // clear chatarea first
+    $('#chatarea').empty();
     $.ajax({
             type: 'GET',
             url: '/history',
@@ -151,16 +111,6 @@ function addMeChatRecord(msg) {
 
     // show on chat textarea
     $('#chatarea').val( $('#chatarea').val() + "me: " + msg + "\n");
-}
-
-$(window).unload( function () {
-    disconnectMqtt();
-});
-
-function disconnectMqtt() {
-    // disconnect MQTT when close window
-    client.disconnec();
-    console.log("close MQTT connection");
 }
 
 function getCookie(cname) {
