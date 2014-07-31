@@ -117,13 +117,19 @@ object Itinerary extends Controller with MongoController {
 
     // transform the list into a JsArray
     val futureItineraryJsonArray: Future[JsArray] = futureItineraryList.map { iti =>
-      Json.arr(iti)
+      if ( iti.size > 0 ) {
+        val raw = iti(0)
+        val result = ItineraryDetail(raw._id, raw.data.map{ feed => feed.reverse })
+        Json.arr(result)
+      } else {
+        Json.arr(iti)
+      }
     }
 
     // everything's ok! Let's reply with the array
     futureItineraryJsonArray.map { iti =>
-      if ( iti(0).toString != "[]" ) {
-        Ok(iti(0)(0))
+      if ( iti.toString != "[[]]" ) {
+        Ok(iti(0))
       } else {
         NoContent
       }
