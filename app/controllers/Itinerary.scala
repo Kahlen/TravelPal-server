@@ -155,12 +155,49 @@ object Itinerary extends Controller with MongoController {
             Json.obj("_id" -> _id),
             Json.obj("$push" -> Json.obj("data" -> data)),
             upsert = true)
+
+          // publish to MQTT
+          publishUpdateItinerary(_id, data.user._id)
+
           Ok
       }.recoverTotal{
         e => BadRequest("Detected error:"+ JsError.toFlatJson(e))
       }
     }.getOrElse {
       BadRequest("Expecting Json data: " + request)
+    }
+  }
+
+  // topic: receiver/sender/iid/updateItinerary
+  def publishUpdateItinerary(iid: String, user: String) = {
+    Logger.debug("publishUpdateItinerary with iid: " + iid)
+
+    val cursor: Cursor[ItineraryRecord] = collection.
+      // {"$or":[ { "user":user }, { "partners":{ $in:[user] } } ]}
+      find(Json.obj("_id" -> iid)).
+      cursor[ItineraryRecord]
+
+    val futureItineraryList: Future[List[ItineraryRecord]] = cursor.collect[List]()
+    futureItineraryList.map { itinerary =>
+      // convert scala list to json array
+      itinerary(0).partners.foreach({ ps =>
+        ps.foreach({ p =>
+          // don't publish to sender
+          if ( p != user ) {
+            val topic = p + "/" + user + "/" + iid +  "/updateItinerary"
+            Logger.debug("publish on topic(" + topic + ")")
+            Chat.publishOnTopic( topic, "update itinerary", 1 )
+          }
+        })
+      })
+
+      // don't publish to sender
+      if ( itinerary(0).user != user ) {
+        val userTopic = itinerary(0).user + "/" + user + "/updateItinerary"
+        Logger.debug("publish on topic(" + userTopic + ")")
+        Chat.publishOnTopic( userTopic, "update itinerary", 1 )
+      }
+
     }
   }
 
@@ -191,6 +228,10 @@ object Itinerary extends Controller with MongoController {
             Json.obj("_id" -> _id),
             Json.obj("$push" -> Json.obj(commentIndexKey -> data))
             )
+
+          // publish to MQTT
+          publishUpdateItinerary(_id, data.user._id)
+
           Ok
       }.recoverTotal{
         e => BadRequest("Detected error:"+ JsError.toFlatJson(e))
