@@ -33,7 +33,8 @@ object Application extends Controller {
   var clientMQ: MqttClient = _
   var receiveCount = 0
 
-  def testMqttPerformance(topic: String, qos: Integer) = Action {
+  def testMqttPerformance(qos: Integer) = Action {
+    val topic = "mqtt-malaria/#"
     Logger.debug("start to test, subscribe topic(" + topic + ") with Qos " + qos)
     try {
       // Eclipse Paho + HiveMQ
@@ -87,7 +88,7 @@ object Application extends Controller {
   def endMqttPerformanceTest() = Action {
     Logger.debug("end test")
     receiveCount = 0
-    if ( clientMQ != null )
+    if ( clientMQ != null && clientMQ.isConnected )
       clientMQ.disconnect
     Ok("Bye, world!")
   }
