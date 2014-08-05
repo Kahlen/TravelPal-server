@@ -4,6 +4,8 @@
 
 # Home page
 GET     /                           controllers.Application.index
+GET     /mqtttest                   controllers.Application.testMqttPerformance(topic: String, qos:Integer)
+GET     /mqtttestend                controllers.Application.endMqttPerformanceTest
 
 # User account
 GET     /user                       controllers.Users.create(id: String, password: String, name: String)
