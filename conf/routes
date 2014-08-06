@@ -35,5 +35,9 @@ GET     /itinerary                  controllers.Itinerary.getItineraryByUser(use
 GET     /getitinerary               controllers.Itinerary.getItineraryByIid(iid: String)
 GET     /getitineraryjson           controllers.Itinerary.getItineraryByIidJson(iid: String)
 
+#GCM
+POST    /registergcm                controllers.GCMController.register
+GET     /gcmpush                    controllers.GCMController.pushNotification(userId: String, message: String, collapseKey: Option[String])
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
