@@ -132,6 +132,11 @@ object Application extends Controller {
     Ok(output.toString)
   }
 
+  def getCurrentProgress() = Action {
+    val result = "receiveCount: " + receiveCount + ", sendCount: " + sendCount
+    Ok(result)
+  }
+
   def testMqttPerformance(qos: Integer) = Action {
     val topic = "mqtt-malaria/#"
     Logger.debug("start to test, subscribe topic(" + topic + ") with Qos " + qos)
