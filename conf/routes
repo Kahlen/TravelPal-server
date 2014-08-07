@@ -4,6 +4,9 @@
 
 # Home page
 GET     /                           controllers.Application.index
+GET     /performance                controllers.Application.testMqttPerformanceAuto(qos: Integer)
+GET     /pong                       controllers.Application.testMqttPerformancePong(count: Integer)
+GET     /getlatency                 controllers.Application.getLatency
 GET     /mqtttest                   controllers.Application.testMqttPerformance(qos:Integer)
 GET     /mqtttestend                controllers.Application.endMqttPerformanceTest
 
