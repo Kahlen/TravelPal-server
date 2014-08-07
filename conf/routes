@@ -38,6 +38,11 @@ GET     /getitineraryjson           controllers.Itinerary.getItineraryByIidJson(
 #GCM
 POST    /registergcm                controllers.GCMController.register
 GET     /gcmpush                    controllers.GCMController.pushNotification(userId: String, message: String, collapseKey: Option[String])
+GET     /performance                controllers.GCMController.pushNotificationAuto
+GET     /pong                       controllers.GCMController.pushNotificationPong(count: Integer)
+GET     /getprogress                controllers.GCMController.getCurrentProgress
+GET     /getlatency                 controllers.GCMController.getLatency
+GET     /endtest                    controllers.GCMController.endPerformanceTest
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

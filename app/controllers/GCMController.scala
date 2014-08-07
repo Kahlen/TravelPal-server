@@ -26,8 +26,8 @@ import models.GCMDeviceJsonFormats._
  * Created by kahlenlin on 8/6/14.
  */
 object GCMController extends Controller with MongoController {
-  val senderId = "sender_id" // project number
-  val apiKey = "api_key"
+  val senderId = "1026505725242" // project number
+  val apiKey = "AIzaSyCXmU_LH727AAiO__Lb4WLoPGtnVuZmfyI"
 
   val sender: Sender = new Sender(apiKey)
 
@@ -63,6 +63,60 @@ object GCMController extends Controller with MongoController {
 
   def unregister(userId: String) = {
     collection.remove(Json.obj("_id" -> userId))
+  }
+
+  val requestTotal = 100
+  var sendTime = new Array[Long](requestTotal)
+  var receiveTime = new Array[Long](requestTotal)
+  var sendCount = 0
+
+  def pushNotificationAuto() = Action {
+    val notification = GCMNotification( sendCount + "/1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111", None)
+    val message2push = notification.asMessage
+    sender.send(message2push, "APA91bFikQSmsNwZyQ_VTKLprpx4w9ONZzKRUS8NlAmKz2gj_cr_5qLnvXh8jauii5sduTLtEhEPQ10xciU1ZPNpP2Vfq9_N9hxsry5BdvlAUEJfMsYPWHAiGEIyDt1KCshPGkT7Q2F7pTbcxy8lrWkGdY7xMSsyHA", 5)
+    val currentTime = java.lang.System.currentTimeMillis
+    sendTime(sendCount) = currentTime
+    System.err.println( "%4d".format(sendCount) + ": " + currentTime)
+    sendCount += 1
+    Ok("Hello, world")
+  }
+
+  def pushNotificationPong(count: Integer) = Action {
+    val currentTime = java.lang.System.currentTimeMillis
+    receiveTime(count) = currentTime
+    System.err.println( "%4d".format(count) + ": " + currentTime)
+    Ok("Hello. world")
+  }
+
+  def getLatency() = Action {
+    var latencySum = 0l
+    var lostCount = 0
+    for ( i <- 0 until requestTotal) {
+      if ( receiveTime(i) != 0l ) {
+        latencySum = latencySum + ( receiveTime(i) - sendTime(i) )
+      } else {
+        lostCount += 1
+      }
+    }
+
+    val latencyAve = latencySum.toDouble/(requestTotal-lostCount)
+    val output = new StringBuilder("latency sum: " + latencySum + "\n")
+    output ++= "latency average: " + latencyAve + "\n"
+    output ++= "lost: " + lostCount + "\n"
+    Ok(output.toString)
+  }
+
+  def getCurrentProgress() = Action {
+    val result = "sendCount: " + sendCount
+    Ok(result)
+  }
+
+  def endPerformanceTest() = Action {
+    Logger.debug("end test")
+    sendTime = new Array[Long](requestTotal)
+    receiveTime = new Array[Long](requestTotal)
+    sendCount = 0
+    Ok("Bye, world!")
   }
 
   def pushNotification(userId: String, message: String, collapseKey: Option[String]) = Action.async {
