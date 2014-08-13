@@ -18,5 +18,6 @@ libraryDependencies ++= Seq(
   ws,
   "org.eclipse.paho"    %   "mqtt-client"    % "0.4.0",
   "org.mongodb" % "mongo-java-driver" % "2.8.0",
-  "org.reactivemongo" %% "play2-reactivemongo" % "0.11.0-SNAPSHOT"
+  "org.reactivemongo" %% "play2-reactivemongo" % "0.11.0-SNAPSHOT",
+  "net.sourceforge.htmlcleaner" % "htmlcleaner" % "2.2"
 )

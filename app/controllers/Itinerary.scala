@@ -10,6 +10,8 @@ import models.User
 import play.api.data.Forms._
 import scala.text
 import models.ItineraryRecord
+import java.net.URL
+import scala.collection.mutable.ListBuffer
 
 // Reactive Mongo imports
 import reactivemongo.api._
@@ -20,6 +22,7 @@ import play.modules.reactivemongo.json.collection.JSONCollection
 import play.api.data.Form
 import models._
 import models.ItineraryJsonFormats._
+import models.ExternalLinkJsonFormats._
 
 /**
  * Created by kahlenlin on 7/20/14.
@@ -239,6 +242,55 @@ object Itinerary extends Controller with MongoController {
     }.getOrElse {
       BadRequest("Expecting Json data: " + request)
     }
+  }
+
+
+  def processExternalLink() = Action { request =>
+    import scala.collection.mutable.ListBuffer
+    import org.htmlcleaner.HtmlCleaner
+    import org.apache.commons.lang3.StringEscapeUtils
+
+    val body: AnyContent = request.body
+    val textBody: Option[String] = body.asText
+
+    textBody.map { rawLink =>
+      Logger.debug("rawLink: " + rawLink)
+
+      var stories = new ListBuffer[String]
+      val cleaner = new HtmlCleaner
+      val props = cleaner.getProperties
+      val rootNode = cleaner.clean(new URL(rawLink))
+      val elements = rootNode.getElementsByName("meta", true)
+
+      var title = ""
+      var description = ""
+      var image = ""
+      for (elem <- elements) {
+        val classType = elem.getAttributeByName("property")
+        if (classType != null && classType.equalsIgnoreCase("og:title")) {
+          title = elem.getAttributeByName("content")
+          Logger.debug("title: " + title)
+        }
+
+        if (classType != null && classType.equalsIgnoreCase("og:description")) {
+          description = elem.getAttributeByName("content")
+          Logger.debug("description: " + description)
+        }
+
+        if (classType != null && classType.equalsIgnoreCase("og:image")) {
+          image = elem.getAttributeByName("content")
+          Logger.debug("description: " + image)
+        }
+
+      }
+
+      val linkData = ExternalLink( title, description, image, rawLink )
+      //    return stories.filter(storyContainsDesiredPhrase(_)).toList
+      Ok(Json.toJson(linkData))
+    }.getOrElse {
+      BadRequest("Expecting text/plain request body")
+    }
+
   }
 
 }

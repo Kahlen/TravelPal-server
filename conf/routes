@@ -38,6 +38,7 @@ POST    /itinerarycomment           controllers.Itinerary.commentItinerary
 GET     /itinerary                  controllers.Itinerary.getItineraryByUser(user: String)
 GET     /getitinerary               controllers.Itinerary.getItineraryByIid(iid: String)
 GET     /getitineraryjson           controllers.Itinerary.getItineraryByIidJson(iid: String)
+POST     /processlink                controllers.Itinerary.processExternalLink
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
