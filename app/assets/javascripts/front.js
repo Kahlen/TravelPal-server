@@ -4,6 +4,8 @@ $(document).ready( function() {
     console.log("userJson = " + getUserDataJson());
     setupPage();
 
+    $('#homeBtn').trigger('click');
+
     // register and subscribe MQTT as soon as logging in
     registerMqtt();
 });
@@ -52,7 +54,7 @@ function setupPage() {
 
     logout();
 
-	setupBtn("#homeBtn", "#idont");
+	setupBtn("#homeBtn", "promote");
 	setupBtn("#myTripsBtn","mytrip");
 	setupBtn("#newTripsBtn","newtrip");
 	setupBtn("#findFriendsBtn","friends");

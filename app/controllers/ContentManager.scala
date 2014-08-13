@@ -23,4 +23,8 @@ object ContentManager extends Controller {
     Ok(views.html.newtrip("Hello, word"))
   }
 
+  def promote = Action {
+    Ok(views.html.promote("Hello, word"))
+  }
+
 }

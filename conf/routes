@@ -30,6 +30,7 @@ GET     /subscribe                  controllers.Chat.subscribe(users: String)
 GET     /friends                    controllers.ContentManager.friends
 GET     /mytrip                     controllers.ContentManager.mytrip
 GET     /newtrip                    controllers.ContentManager.newtrip
+GET     /promote                    controllers.ContentManager.promote
 
 #Itinerary
 POST    /additinerary               controllers.Itinerary.createFromJson
