@@ -10,11 +10,19 @@ function processExistingLinks() {
 
     // for the existing feeds, if it's a link, change the format
     $('.trip_content_comment_area').children('.trip_content_comments').each(function(index) {
+         // process external link
          var content = $(this).find('.trip_content_feed');
          var foundFeed = content.text();
          if( foundFeed.indexOf("http://") >= 0 || foundFeed.indexOf("https://") >= 0 ){
              console.log("foundFeed: " + foundFeed);
              processExternalLink(foundFeed, index);
+         } else {
+            // if feed is not a link, change feed to editable
+            var postUser = $(this).find('h5').text();
+            if ( postUser.substring(postUser.lastIndexOf("(")+1,postUser.lastIndexOf(")")) === $.cookie("userId") ) {
+                // make feed editable
+                content.attr('contenteditable', true);
+            }
          }
     });
 }
