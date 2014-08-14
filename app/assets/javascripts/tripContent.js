@@ -1,4 +1,5 @@
 $(document).ready( function() {
+    putTitle();
     processExistingLinks();
     setCreateCommentBtn();
     replaceLineBreak();
@@ -16,7 +17,11 @@ function processExistingLinks() {
              processExternalLink(foundFeed, index);
          }
     });
+}
 
+function putTitle() {
+    $('.mainBlock').text(localStorage.getItem('destination'));
+    $('.padBlock').text(localStorage.getItem('date'));
 }
 
 function replaceLineBreak() {
@@ -95,7 +100,7 @@ function processExternalLink(links, replaceIndex) {
                     // add new format
                     $('.trip_content_comment_area').children().eq(replaceIndex).find('h5').after('<div class="link_container"><div class="link_right"><p class="link_title">' + data.title + '</p><p class="link_description">' + data.description + '</p></div><div class="link_left"><img src="' + data.image + '"/></div></div>');
                     // add href link
-                    $('.trip_content_comment_area').children().eq(replaceIndex).find('.link_container').wrap('<a href="' + data.url + '" target="_blank"></a>');
+                    $('.trip_content_comment_area').children().eq(replaceIndex).find('.link_container').wrap('<a href="' + data.url + '" target="_blank" style="text-decoration: none"></a>');
 
                }
             }

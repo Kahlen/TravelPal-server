@@ -69,9 +69,67 @@
 }
 
 
+.mainBlock {
+    /* TRANSFORMS */
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    display: table;
+    font-weight: bold;
+    height:80px;
+    margin-top: 30px;
+    margin-bottom: 0px;
+
+    /* FONT SETTINGS */
+    font-family: "futura-pt", sans-serif;
+    font-size: 4.5em;
+    /*line-height: 0.8;*/
+    /*SPECIAL TEXT SETTINGS SCROLL*/
+	  background: url(P1440140.JPG) repeat-y;
+	  -webkit-background-clip: text;
+	  -webkit-text-fill-color: transparent;
+	  -webkit-animation: aitf 80s linear infinite;
+	  -webkit-transform: translate3d(0,0,0);
+  	-webkit-backface-visibility: hidden;
+    /* SPECIAL TEXT SETTINGS */
+    /* DELETE THIS LINE TO TURN OFF TITLE SCROLLING
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: cover;
+    background-position: center;
+    background-image: url(http://cl.ly/image/1t3m2u2k060V/2014-02-04%2002.39.43%201.jpg);
+    */
+}
+.padBlock {
+    /* TRANSFORMS */
+    text-align: center;
+    margin-top:0px;
+    margin-bottom: 0px;
+
+    /* FONT SETTINGS */
+    font-family: "futura-pt", sans-serif;
+    font-weight: 100;
+    font-size: 2em;
+    font-kerning: auto;
+  	font-style:italic;
+	  font-size-adjust:auto;
+    line-height: 1;
+    /* SPECIAL TEXT SETTINGS */
+    background: repeating-linear-gradient(240deg, #ff3800, #0037ba);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+@-webkit-keyframes aitf {
+ 	0% { background-position: 0% 50%; }
+ 	100% { background-position: 100% 50%; }
+}
 
 
 
+
+
+/* external link */
 .link_container {
    height: 168px;
    weight: 960px;
@@ -86,8 +144,7 @@
 }
 
 .link_left {
-    float: none; /* not needed, just for clarification */
-    /* the next props are meant to keep this block independent from the other floated one */
+    float: none;
     width: 168px;
     height: 168px;
     overflow: hidden;

@@ -33,9 +33,17 @@ function setItineraryItemClick() {
         var currentId = $(this).attr('id');
         console.log("_id(" + currentId + ") is clicked");
 
+        var destination = $(this).find('.destination').text();
+        var date = $(this).find('.date').text();
+//        var clickedIndex = $(this).index();
+//        var partners = itineraries[clickedIndex].partners;
+
         // get itinerary content
         $.get( "/getitinerary?iid=" + currentId, function(data) {
             localStorage.setItem('iid', currentId);
+            localStorage.setItem('destination', destination);
+            localStorage.setItem('date', date);
+//            localStorage.setItem('partners', partners);
             $('#content').html(data);
         });
 
