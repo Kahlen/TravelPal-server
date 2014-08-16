@@ -160,7 +160,7 @@ object Users extends Controller with MongoController {
       // find all people with name `name`
       find(Json.obj()).
       // sort them by creation date
-      sort(Json.obj("_id" -> 1)).
+      sort(Json.obj("_id" -> -1)).
       // perform the query and get a cursor of JsObject
       cursor[FriendsOf]
 
@@ -172,7 +172,8 @@ object Users extends Controller with MongoController {
     val futurePersonsJsonArray: Future[JsArray] = futureUsersList.map { persons =>
       Logger.debug("persons: " + persons)
 
-      var friendsResult: JsArray = JsArray()
+      var isFriendResult: JsArray = JsArray()
+      var notFriendResult: JsArray = JsArray()
       persons.foreach{ p =>
         p match {
           case FriendsOf(fid,_,name,x) =>
@@ -188,13 +189,17 @@ object Users extends Controller with MongoController {
                 "name" -> name,
                 "isFriend" -> isFriend
               )
+              if ( isFriend )
+                isFriendResult = tmp +: isFriendResult
+              else
+                notFriendResult = tmp +: notFriendResult
 
-              friendsResult = tmp +: friendsResult
             }
         }
       }
 
-      friendsResult
+      // friends are listed before not friends
+      isFriendResult ++ notFriendResult
     }
 
     // everything's ok! Let's reply with the array
