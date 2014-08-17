@@ -108,7 +108,8 @@ function processExternalLink(links, replaceIndex) {
                     // remove the link text
                     $('.trip_content_comment_area').children().eq(replaceIndex).find('.trip_content_feed').remove();
                     // add new format
-                    $('.trip_content_comment_area').children().eq(replaceIndex).find('h5').after('<div class="link_container"><div class="link_right"><p class="link_title">' + data.title + '</p><p class="link_description">' + data.description + '</p></div><div class="link_left"><img src="' + data.image + '"/></div></div>');
+                    $('.trip_content_comment_area').children().eq(replaceIndex).find('h5').after('<div class="link_container"><div class="link_right"><p class="link_title">' + data.title + '</p><p class="link_description">' + data.description + '</p></div><div class="link_left"><div style="background-image: url(' + data.image + '); background-repeat: no-repeat; background-size: cover; width:168px; height:168px;"/></div></div>');
+//                    $('.trip_content_comment_area').children().eq(replaceIndex).find('h5').after('<div class="link_container"><div class="link_right"><p class="link_title">' + data.title + '</p><p class="link_description">' + data.description + '</p></div><div class="link_left"><img src="' + data.image + '"/></div></div>');
                     // add href link
                     $('.trip_content_comment_area').children().eq(replaceIndex).find('.link_container').wrap('<a href="' + data.url + '" target="_blank" style="text-decoration: none"></a>');
 
