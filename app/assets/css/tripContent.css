@@ -130,8 +130,9 @@
  	100% { background-position: 100% 50%; }
 }
 
-
-
+a:visited{
+     color: inherit;
+}
 
 
 /* external link */
