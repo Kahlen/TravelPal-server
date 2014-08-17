@@ -48,7 +48,7 @@
         @idetails.data.map { list =>
             @for( p <- list ) {
                 <div class="trip_content_comments">
-                    <h5>@p.user.name (@p.user._id)</h5><p class="trip_content_feed">@p.feed</p>
+                    <h5>@p.user.name (@p.user._id)</h5><p class="trip_content_feed">@p.feed</p><p class="trip_content_feed_timestamp">@p.timestamp</p>
                     <div class='fav_listings_comments_section'>
                         @p.comments.map { feedComment =>
                             @for( c <- feedComment) {

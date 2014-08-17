@@ -48,12 +48,14 @@ function setCreateCommentBtn() {
         var rawInput = $('#trip_comment').val();
         var inputComment = nl2br(rawInput);
         $('#trip_comment').val('');
-        $('.trip_content_comment_area').prepend('<div class="trip_content_comments"><h5>' + getCookie("userName") + " (" + getCookie("userId") + ")" + '</h5><p class="trip_content_feed">' + inputComment + '</p><div class="fav_listings_comments_section"><form class="trip_content_comment_textarea"><div class="fav_comment"><textarea class="fav_comment_textarea" placeholder="Write a comment..." maxlength=1000></textarea></div></form></div></div>');
+        var timestamp = new Date().getTime();
+        var timeS = timeConverter(timestamp);
+        $('.trip_content_comment_area').prepend('<div class="trip_content_comments"><h5>' + getCookie("userName") + " (" + getCookie("userId") + ")" + '</h5><p class="trip_content_feed">' + inputComment + '</p><p class="trip_content_feed_timestamp">' + timeS + '</p><div class="fav_listings_comments_section"><form class="trip_content_comment_textarea"><div class="fav_comment"><textarea class="fav_comment_textarea" placeholder="Write a comment..." maxlength=1000></textarea></div></form></div></div>');
         makeComment();
         // post to server
         var iid = localStorage.getItem('iid');
         // replace line break to /n when posting to server
-        postItineraryDetail2Server(iid, nl2nl(rawInput));
+        postItineraryDetail2Server(iid, nl2nl(rawInput), timeS);
 
         processExternalLink(rawInput, 0);
     });
@@ -118,9 +120,8 @@ function processExternalLink(links, replaceIndex) {
 
 }
 
-function postItineraryDetail2Server(iid, feed) {
-    var timestamp = new Date().getTime();
-    var requestBody = '{"_id":"' + iid + '","data":{"user":' + getUserDataJson() + ',"feed":"' + feed + '", "timestamp":' + timestamp + '}}';
+function postItineraryDetail2Server(iid, feed, timestamp) {
+    var requestBody = '{"_id":"' + iid + '","data":{"user":' + getUserDataJson() + ',"feed":"' + feed + '", "timestamp":"' + timestamp + '"}}';
     console.log("requestBody: " + requestBody);
     $.ajax({url: '/updateitinerary',
         data: requestBody,

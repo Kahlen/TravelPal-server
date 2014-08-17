@@ -42,6 +42,11 @@
     display: block;
 }
 
+.trip_content_feed_timestamp {
+    font-size:13px;
+    color:grey;
+}
+
 .trip_content_comments {
     width: 960px;
     width: 960px;

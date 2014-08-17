@@ -5,7 +5,7 @@ package models
  */
 case class ItineraryRecord (_id: String, user: String, destination: String, start: String, end: String, partners: Option[List[String]])
 case class ItineraryComment (user: User, comment: String, timestamp: String)
-case class IteneraryFeed(user: User, feed: String, timestamp: Long, comments: Option[List[ItineraryComment]])
+case class IteneraryFeed(user: User, feed: String, timestamp: String, comments: Option[List[ItineraryComment]])
 case class ItineraryDetail(_id: String, data: Option[List[IteneraryFeed]])
 
 
